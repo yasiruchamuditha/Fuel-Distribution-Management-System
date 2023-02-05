@@ -19,7 +19,7 @@
         <div class="row">
             <div class="col-md-6 text-center text-lg-left mb-2 mb-lg-0">
                 <div class="d-inline-flex align-items-center">
-                    <a class=" text-light pr-3" href="tel:076 471 6214"><i class="fa fa-phone-alt mr-2"></i>0764716214</a>
+                    <a class=" text-light pr-3" href="tel:076 471 6214"><i class="fa fa-phone-alt mr-2"></i>0123456789</a>
                     <span class="text-light">||</span>
                     <a class="text-light px-3" href="mailto:fuelupgroup@gmail.com"><i class="fa fa-envelope mr-2"></i>fuelupgroup@gmail.com</a>
                     <span class="text-light">||</span>
