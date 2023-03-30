@@ -17,7 +17,6 @@ if(isset($_POST["btnSubmit"]))
 		}
 		else
 		{	
-       
        //perform sql
         $sql = "SELECT * FROM user_registration WHERE  Password='$Password' and Email='$Email' ";
         $result= mysqli_query($con, $sql);
@@ -45,10 +44,8 @@ if(isset($_POST["btnSubmit"]))
             {
                  echo '<script>alert("Invalid Username and Password Combination")</script>';
             }
-
         //disconnect 
          mysqli_close($con);
-
         }
        
     }

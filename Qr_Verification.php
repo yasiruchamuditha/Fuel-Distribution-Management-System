@@ -16,9 +16,9 @@ require 'PHPMailer/src/SMTP.php';
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
+    <meta http-equiv="refresh" content="30;url=Qr_Verification.php">
     <title>Fuel Up - QR Verification</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Fuel Up" name="keywords">
@@ -38,7 +38,6 @@ require 'PHPMailer/src/SMTP.php';
     <!-- css Stylesheet -->
     <link href="css/styles.css" rel="stylesheet">
 </head>
-
 <body>
 <?php require('Fuel_Station_navigationBar.php');?>
 
@@ -48,12 +47,10 @@ require 'PHPMailer/src/SMTP.php';
     <form action="#" method="post" >
       <div class="mt-0">
         <div class="row">
-
            <div class="col-lg-6">
               <label for="Email" class="form-label">Please Enter User Email</label>
               <input type="email" class="form-control px-3 pt-2" name="txtUserEmail" id="txtUserEmail" placeholder="User Email" required style="font-size: 20px;">
           </div>
-
           <div class="col">
               <label for="TokenType" class="form-label">Token Type</label>
                 <select id="TokenType" name="TokenType" class="form-control" required style="font-size: 20px;">
@@ -62,21 +59,35 @@ require 'PHPMailer/src/SMTP.php';
                   <option value="Instrument">Instrument</option>
                 </select>
          </div> 
-
           <div class="col" style="margin-top: 30px;">
             <button type="submit" class="btn btn-outline-primary " name="btnCheck" id="btnSubmit" style="font-size: 20px;">Check</button>
          </div>
       </div>
   </div>
-  </form>  
+  </form> 
  </div>
+ <label for="Output Message" class="form-label"><span id="MessageOutput"></span></label> 
 </div>
 
 <hr style="color: black;">
 
-<?php
+<div>
+<p class="header">Fuel Pass Account</p>
+<table class="table">
+<thead> 
+    <tr  class="table-info">
+      <th scope="col">Registration_No</th>
+      <th scope="col">preferd_Date</th>
+      <th scope="col">preferd_Time</th>
+      <th scope="col">FuelType</th>
+      <th scope="col">Validity</th>
+      <th scope="col">Function</th>
+    </tr>
+ </thead>
+  <tbody>
+<?php 
 
-if(isset($_POST["btnCheck"]))
+ if(isset($_POST["btnCheck"]))
 {
   $Email=$_POST["txtUserEmail"];
   $TokenType=$_POST["TokenType"];
@@ -88,25 +99,13 @@ if(isset($_POST["btnCheck"]))
        {
          //perform sql
           $sql = "SELECT * FROM token_vehicle WHERE  Email='$Email' ";
-          $result= mysqli_query($con, $sql);
-          $num_row = mysqli_num_rows($result);
-           if ($num_row >0) 
-           {
-              while( $row = mysqli_fetch_array($result))
+           $result= mysqli_query($con, $sql);
+            if ($result)
+            {
+              while($row=mysqli_fetch_assoc($result))
               {
-                  if($row['Validity'] == 'Valid')
-                  {
-                      //print data
-                     echo "<table border=2 width=700px bgcolor=whitesmoke align=center margin=50px 50px 50px 50px >";
-                     echo"<tr>";
-                     echo"<th>Registration_No </th>";
-                     echo"<th>preferd_Date </th>";
-                     echo"<th>preferd_Time </th>";
-                     echo"<th>FuelType </th>";
-                     echo"<th>Validity </th>";
-                     echo"<th>Function </th>";
-                     echo"</tr>";
-
+                 if($row['Validity'] == 'Valid')
+                 {
                      $Registration_No=$row['Registration_No'];
                      $preferd_Date=$row['preferd_Date'];
                      $preferd_Time=$row['preferd_Time'];
@@ -125,40 +124,33 @@ if(isset($_POST["btnCheck"]))
                   }
                   else
                   {
-                     echo "<h3 style=\" font-size: 30px;color:red; text-align: center; \">QR is Expired...</h3>";
+                  echo '<script>alert("QR is Expired...")</script>';  
+                     //echo "<h3 style=\" font-size: 30px;color:red; text-align: center; \">QR is Expired...</h3>";
+                   echo"<script type = 'text/javascript'>   
+                    var MessageOut=document.getElementById('MessageOutput');
+                    document.getElementById('MessageOut').innerHTML = 'QR is Expired...';</script>";
+                     
                   }
               }
-            echo "</table>"; 
 
-           }
-           else
-           {
-             echo "<h3 style=\" font-size: 30px;color:red; text-align: center; \">No QR Registered Under this Email.</h3>";
-           }
-
-       }
-       else
-       {
-          //perform sql
+            }
+            else
+            {
+              echo '<script>alert("No QR Registered Under this Email.")</script>';  
+             //echo "<h3 style=\" font-size: 30px;color:red; text-align: center; \">No QR Registered Under this Email.</h3>";
+            }
+          }
+          else
+          {
+            //perform sql
           $sql = "SELECT * FROM token_instrument WHERE  Email='$Email' ";
           $result= mysqli_query($con, $sql);
-          $num_row = mysqli_num_rows($result);
-          if ($num_row >0) 
-          {
-            while( $row = mysqli_fetch_array($result))
+          if ($result)
             {
-               if($row['Validity'] == 'Valid')
-               {
-                  //print data
-                  echo "<table border=1 width=600px bgcolor=whitesmoke align=center margin=50px 50px 50px 50px >";
-                  echo"<tr>";
-                  echo"<th>Registration_No </th>";
-                  echo"<th>preferd_Date </th>";
-                  echo"<th>preferd_Time </th>";
-                  echo"<th>FuelType </th>";
-                  echo"<th>Validity </th>";
-                  echo"</tr>";
-
+              while($row=mysqli_fetch_assoc($result))
+              {
+                 if($row['Validity'] == 'Valid')
+                 {
                   $Registration_No=$row['Registration_No'];
                   $preferd_Date=$row['preferd_Date'];
                   $preferd_Time=$row['preferd_Time'];
@@ -172,32 +164,38 @@ if(isset($_POST["btnCheck"]))
                   <td>'.$Validity.'</td>
                   <td><button class="btn btn-danger" name="btnApprove"><a href="Qr_Verification.php?updateInstrumentid='.$Registration_No.'" class="text-light">Approve</a></button></td>
                   </tr>';
-               }
-               else
-               {
+                 }
+                 else
+                 {
                   echo "<h3 style=\" font-size: 30px;color:black; text-align: center; \">QR is Expired...</h3>";
-               }
+                 }
+              }
             }
-            echo "</table>";
-
-          }
-          else
-          {
+            else
+            {
             echo "<h3 style=\" font-size: 30px;color:red; text-align: center; \">No QR Registered Under this Email.</h3>";
+            } 
           }
-       }
-     }
-     else
-     {
-        echo '<script>alert("Please Enter Valid UserEmail")</script>';  
-     }
-
-   }
-   else
-   {
-    echo '<script>alert("UserEmail Filed cannot be blank")</script>';
-   }
+        }
+        else
+        {
+         echo '<script>alert("Please Enter Valid UserEmail")</script>';  
+        }
+      }
+      else
+      {
+       echo '<script>alert("UserEmail Filed cannot be blank")</script>';
+      }
 }
+
+?>
+</tbody>
+</table>
+</div>
+
+
+
+<?php 
 
 if(isset($_GET['updateVehicleid']))
 {

@@ -8,7 +8,6 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Fuel Up" name="keywords">
     <meta content="Fuel Status" name="description">
-
     <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
     <!-- Google Web Fonts -->
@@ -26,14 +25,12 @@
 </head>
 
 <body>
-    <?php require('navigationBar.php');?>
+ <?php require('navigationBar.php');?>
 
    <div class="container">
    	<h1>Due To Economic Crisis Suppliers are Not Direct Import Fuel Based Products To Sri Lanka. Please Directly Contact Suppliers For More Details.</h1>
-
    </div>
     
-
  <?php require('footer.php');?>
 
     <!-- JavaScript Libraries -->

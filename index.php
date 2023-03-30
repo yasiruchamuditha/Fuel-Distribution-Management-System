@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta http-equiv="refresh" content="120;url=index.php">
     <title>fuelup</title>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -67,9 +68,7 @@
           </nav>
       </div>
   </div>
-
     <!--navigation bar end--> 
-   
     
      <!--slider start-->
     <div id="carouselExampleIndicators" class="carousel slide  pt-0" data-ride="carousel">
@@ -200,7 +199,7 @@
     </div>
     <!-- About End -->
 
-    <!-- Services Start -->
+<!-- Services Start -->
 <div class="container-fluid py-5">
   <div class="container pt-5 pb-3">
      <h1 class="display-1 text-primary text-center"></h1>

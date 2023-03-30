@@ -1,5 +1,4 @@
 <?php require_once('connection.php');
-
 //Import PHPMailer classes into the global namespace
 //These must be at the top of your script, not inside a function
 use PHPMailer\PHPMailer\PHPMailer;
@@ -12,10 +11,8 @@ require 'PHPMailer/src/Exception.php';
 require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 //
-
 if(isset($_POST["btnSubmit"]))
 {
-    //var_dump($_POST);
     $mail = new PHPMailer(true);
 
     $Name=$_POST["txtName"];
@@ -26,29 +23,23 @@ if(isset($_POST["btnSubmit"]))
     $Confirm_Password=$_POST["txtConfirmPassword"]; 
     $Verification="NotVerified";
 
-//perform sql to find this email is registered in website
+    //perform sql to find this email is registered in website
     $sql = "SELECT * FROM user_registration WHERE Email='$Email' ";
     $result= mysqli_query($con, $sql);
     $num_row = mysqli_num_rows($result);
     $row = mysqli_fetch_array($result);
-    if($row['Email'] == $Email)
-      {  
+    if($row['Email'] == $Email){  
         echo '<script>alert("Username is Taken ")</script>';
       }
-     else
-      {
-         if($Password==$Confirm_Password)
-         {
-    //$hashed_password=sha1($Password)
+     else{
+        if($Password==$Confirm_Password){
     //perform sql
     $sql = "INSERT INTO user_registration (Name,Contact_No,Email,Password,User_Role,Verification)VALUES('$Name',$Contact_No,'$Email','$Password','$User_Role','$Verification')";
 
     $ret= mysqli_query($con, $sql);
-    // echo '<script>alert("Successfuly Registered")</script>';
      
-      //send  email to admin
-      if ($User_Role=='Admin')
-      {
+    //send  email to admin
+      if ($User_Role=='Admin'){
       //email admin
         try 
         {
@@ -337,21 +328,16 @@ if(isset($_POST["btnSubmit"]))
     <script src="js/scriptx.js"></script>
     <script type="text/javascript">
       var role_error=document.getElementById('role_error');
-function checkUserrole()
-{
-if(document.getElementById("UserRole").value == "S")
-{
+function checkUserrole(){
+if(document.getElementById("UserRole").value == "S"){
   role_error.innerHTML='Please select your role.';
   return false;
 }
 return true;
-}
-  
+}  
 document.getElementById("UserRole").addEventListener("click", function() {
-
   if (document.getElementById("UserRole").value != "S") {
-
-  return true;
+   return true;
 }
 });
     </script> 
