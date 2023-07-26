@@ -2,7 +2,7 @@
 
   //connection
     //$con = mysqli_connect("dbserver", "dbuser","dbpassword","dbname" );
-    $con = mysqli_connect("localhost:3306", "dse","12345","fuelup" );
+    $con = mysqli_connect("localhost:3306", "root","DdCya995142@4681","fuelup" );
 
  //checking the connection
     if(mysqli_connect_errno())
