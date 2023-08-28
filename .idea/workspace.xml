@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="33756d41-50b4-4359-8599-2877512f730b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Admin.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Admin_FuelPriceManagement.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Admin_FuelPriceUpdate.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Admin_FuelStationRegistration.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Admin_FuelStatusManagement.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Admin_NonVehicleManagement.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Admin_NonVehicleRegistration.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Admin_NonVehicleTokenManagement.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Admin_Registration.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Admin_SupplierManagement.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Admin_SupplierRegistration.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Admin_UserRegistration.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Admin_VehicleManagement.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Admin_VehicleRegistration.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Admin_VehicleTokenManagement.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Admin_footer.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Admin_fuelStationManagement.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Admin_navigationBar.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Admin_userManagement.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FuelStatusSearch.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Fuel_Station.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Fuel_Station_Feedback.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Fuel_Station_navigationBar.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/InstrumentRegistration.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OtherServices.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Otherproducts.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TokenCreationInstrument.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TokenCreationVehicle.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_SignUp.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VehicleRegistration.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/about.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/contact.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footer.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fuelStatus.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fuelprice.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fuelstationregistration.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myAccount.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/navigationBar.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/navigationBarForms.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/navigationBar_Index.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/review.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/service.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/submit_rating.php" beforeDir="false" afterPath="$PROJECT_DIR$/submit_rating.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_login.php" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 2
+}]]></component>
+  <component name="ProjectId" id="2UZHC2c3vhrzP2ueYWmH4nr8qxb" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/wamp64/www/Git/Health_Care_Management_System",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="33756d41-50b4-4359-8599-2877512f730b" name="Changes" comment="" />
+      <created>1693140053919</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1693140053919</updated>
+      <workItem from="1693140062309" duration="28000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

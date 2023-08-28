@@ -4,7 +4,7 @@
 
 //require_once('connection.php');
 //$con = mysqli_connect("localhost:3306", "dse","12345","fuelup" );
-$con = new PDO("mysql:host=localhost;dbname=fuelup", "dse", "12345");
+$con = new PDO("mysql:host=localhost;dbname=fuelup", "root", "DdCya995142@4681");
 
 if(isset($_POST["rating_data"]))
 {

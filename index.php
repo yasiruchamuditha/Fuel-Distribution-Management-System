@@ -3,7 +3,7 @@
   <head>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta http-equiv="refresh" content="120;url=index.php">
-    <title>fuelup</title>
+    <title>Fuelup</title>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
@@ -11,7 +11,6 @@
     <script src="https://kit.fontawesome.com/4874d070ea.js" crossorigin="anonymous"></script>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap" rel="stylesheet">
-
   </head>
   <body>
      <div class="container-fluid px-0">
@@ -35,16 +34,14 @@
             </div>
             <div class="col-md-6 text-center text-lg-right">
                 <div class="d-inline-flex align-items-center">
-                    <a class="text-light px-3" href="user_login.php">
+                    <a class="text-light px-3" href="M_User_Login.php">
                         <i class="fa-solid fa-right-to-bracket"></i> Log In
                     </a>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Topbar End -->
-
-
+  <!-- Topbar End -->
   <!--navigation bar start-->
     <div class="container-fluid  position-relative nav-bar p-0" style="height:100px; background: #F77D0A;font-family:Oswald ;">
       <div class="position-relative px-lg-5" style="z-index: 9;" style="height:100px ;">
@@ -58,20 +55,19 @@
               <div class="collapse navbar-collapse justify-content-between px-3" id="navbarCollapse">
                   <div class="navbar-nav ml-auto py-0 px-3  ">
                       <a href="index.php" class="nav-item nav-link px-3 text-light" style="font-size: 20px;">Home</a>
-                      <a href="about.php" class="nav-item nav-link px-3 text-light"  style="font-size: 20px;">About Us</a>
-                      <a href="service.php" class="nav-item nav-link px-3 text-light"  style="font-size: 20px;">Services</a>
-                      <a href="contact.php" class="nav-item nav-link px-3 text-light"  style="font-size: 20px;">Contact Us</a>
-                      <a href="review.php" class="nav-item nav-link px-3 text-light"  style="font-size: 20px;">Reviews</a>
-                      <a href="myAccount.php" class="nav-item nav-link px-3 text-light"  style="font-size: 20px;">My Account</a>
+                      <a href="U_About.php" class="nav-item nav-link px-3 text-light"  style="font-size: 20px;">About Us</a>
+                      <a href="U_Service.php" class="nav-item nav-link px-3 text-light"  style="font-size: 20px;">Services</a>
+                      <a href="U_Contact.php" class="nav-item nav-link px-3 text-light"  style="font-size: 20px;">Contact Us</a>
+                      <a href="U_Review.php" class="nav-item nav-link px-3 text-light"  style="font-size: 20px;">Reviews</a>
+                      <a href="U_My_Account.php" class="nav-item nav-link px-3 text-light"  style="font-size: 20px;">My Account</a>
                   </div>
               </div>
           </nav>
       </div>
   </div>
-    <!--navigation bar end--> 
-    
-     <!--slider start-->
-    <div id="carouselExampleIndicators" class="carousel slide  pt-0" data-ride="carousel">
+  <!--navigation bar end--> 
+  <!--slider start-->
+  <div id="carouselExampleIndicators" class="carousel slide  pt-0" data-ride="carousel">
       <ol class="carousel-indicators">
         <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
         <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
@@ -84,7 +80,7 @@
              <div class="p-3" style="max-width: 900px;">
                <h1 class="display-1 text-white font-weight-bold mb-md-4">Fuel Status</h1>
                 <h4 class="text-white text-uppercase font-weight-bold mb-md-3">Best Place To Find Fuel Status Of Nearest Fuel Station</h4>
-                <a href="FuelStatusSearch.php" class="btn btn-primary  py-md-3 px-md-5 mt-2">Check Now</a>
+                <a href="S_Fuel_Status_Search.php" class="btn btn-primary  py-md-3 px-md-5 mt-2">Check Now</a>
              </div>
           </div> 
         </div>
@@ -95,7 +91,7 @@
              <div class="p-3" style="max-width: 900px;">
                <h1 class="display-1 text-white font-weight-bold mb-md-4">Fuel Token</h1>
                 <h4 class="text-white text-uppercase font-weight-bold mb-md-3">Reserve Your Vehicle Fuel Token From Here</h4>
-                <a href="TokenCreationVehicle.php" class="btn btn-primary py-md-3 px-md-5 mt-2">Reserve Now</a>
+                <a href="S_Token_Creation_Vehicle.php" class="btn btn-primary py-md-3 px-md-5 mt-2">Reserve Now</a>
              </div>
           </div> 
         </div>
@@ -106,7 +102,7 @@
              <div class="p-3" style="max-width: 900px;">
                <h1 class="display-1 text-white font-weight-bold mb-md-4">Fuel Token</h1>
                 <h4 class="text-white text-uppercase font-weight-bold mb-md-3">Reserve Your Instrument Fuel Token From Here</h4>
-                <a href="TokenCreationInstrument.php" class="btn btn-primary py-md-3 px-md-5 mt-2">Reserve Now</a>
+                <a href="S_Token_Creation_Instrument.php" class="btn btn-primary py-md-3 px-md-5 mt-2">Reserve Now</a>
              </div>
           </div> 
         </div>
@@ -117,7 +113,7 @@
              <div class="p-3" style="max-width: 900px;">
                <h1 class="display-1 text-white font-weight-bold mb-md-4">Fuel Price</h1>
                 <h4 class="text-white text-uppercase font-weight-bold mb-md-3">You Can Get Latest Fuel Price in Sri Lanka</h4>
-                <a href="fuelprice.php" class="btn btn-primary py-md-3 px-md-5 mt-2">Click Here</a>
+                <a href="S_Fuel_Price.php" class="btn btn-primary py-md-3 px-md-5 mt-2">Click Here</a>
              </div>
           </div> 
         </div>
@@ -128,7 +124,7 @@
              <div class="p-3" style="max-width: 900px;">
                <h1 class="display-1 text-white font-weight-bold mb-md-4">FuelUp Account</h1>
                 <h4 class="text-white text-uppercase font-weight-bold mb-md-3">Create Your Free Fuel Up Account To Explore More About Us</h4>
-                <a href="User_SignUp.php" class="btn btn-primary py-md-3 px-md-5 mt-2">Create Now</a>
+                <a href="M_User_SignUp.php" class="btn btn-primary py-md-3 px-md-5 mt-2">Create Now</a>
              </div>
           </div> 
         </div>
@@ -154,7 +150,6 @@
       </a>
     </div>
  <!--slider end-->
-
   <!-- About Start -->
     <div class="container-fluid py-5">
         <div class="container pt-5 pb-3">
@@ -197,8 +192,7 @@
             </div>
         </div>
     </div>
-    <!-- About End -->
-
+<!-- About End -->
 <!-- Services Start -->
 <div class="container-fluid py-5">
   <div class="container pt-5 pb-3">
@@ -211,7 +205,7 @@
                   <div class="card-body">
                      <h5 class="card-title">Fuel Prices</h5>
                      <p class="card-text">You can Find Latest Fuel Price in Sri Lanka</p>
-                     <a href="fuelprice.php" class="btn btn-primary">Check Now</a>
+                     <a href="S_Fuel_Price.php" class="btn btn-primary">Check Now</a>
                   </div>
             </div>
         </div>
@@ -222,7 +216,7 @@
                  <div class="card-body">
                     <h5 class="card-title">Fuel Status</h5>
                     <p class="card-text">You can Find Latest Fuel Status of Fuel Stations in Sri Lanka</p>
-                    <a href="FuelStatusSearch.php" class="btn btn-primary">Check Now</a>
+                    <a href="S_Fuel_Status_Search.php" class="btn btn-primary">Check Now</a>
                  </div>
            </div>
         </div>
@@ -235,7 +229,7 @@
                   <div class="card-body">
                      <h5 class="card-title">Fuel Token</h5>
                      <p class="card-text">You can Reserve Your Fuel Token From Your Nearest Station</p>
-                     <a href="user_login.php" class="btn btn-primary">Click Here</a>
+                     <a href="M_User_Login.php" class="btn btn-primary">Click Here</a>
                   </div>
             </div>
         </div>
@@ -254,8 +248,7 @@
   </div>
 </div>
 <!-- Services End -->
-
-  <!-- Banner Start -->
+<!-- Banner Start -->
         <div class="container py-5  pt-5 pb-5">
             <div class="row mx-0">
 
@@ -265,7 +258,7 @@
                         <div class="text-right">
                             <h3 class="text-uppercase text-light mb-5">Sign Up AS Normal User</h3>
                             <p class="mb-4 text-light">Can Create Fuel Tokens For Your Vehicle or Instruments</p>
-                            <a class="btn btn-primary py-2 px-4" href="User_SignUp.php">Start Now</a>
+                            <a class="btn btn-primary py-2 px-4" href="M_User_SignUp.php">Start Now</a>
                         </div>
                     </div>
                 </div>
@@ -275,7 +268,7 @@
                         <div class="text-left">
                             <h3 class="text-uppercase text-light mb-5">Sign Up AS Fuel Station</h3>
                             <p class="mb-4 text-light">You Can Spread Your Bussiness & Can Get Free Marketing</p>
-                            <a class="btn btn-primary py-2 px-4" href="User_SignUp.php">Start Now</a>
+                            <a class="btn btn-primary py-2 px-4" href="M_User_SignUp.php">Start Now</a>
                         </div>
                         <img class="img-fluid flex-shrink-0 mr-n5 w-50 ml-4" src="img/banner-right.png" alt="">
                     </div>
@@ -285,7 +278,6 @@
         </div>
 
     <!-- Banner End -->
-    
     <!-- search bar-->
     <div class="container py-5" id="sectionSearch" style="background-color: white; height: 250px;">
       <h1 class="display-4 text-uppercase text-center font-weight-bold mb-5">Find  nearest  Fuel  Station</h1>
@@ -347,7 +339,7 @@ on fuel_station_registration.Registration_No=fuel_status.Registration_No where f
 $result = mysqli_query($con, $sql);
 $num_row = mysqli_num_rows($result);
 
-if ($num_row>0) 
+if ($num_row > 0) 
 {
 
 //print data
@@ -393,7 +385,6 @@ else
 }
 ?> 
 
-
   <!-- Footer Start -->
    <div class="container-fluid  py-2 px-sm-3 px-md-5" style="margin-top: 800px; background: #2B2E4A;">
         <div class="row pt-5">
@@ -429,7 +420,7 @@ else
     </div>
     <!-- Footer End -->
 
-  <?php require('backtotop.php');?>
+  <?php require('M_Back_To_Top.php');?>
 
 </div>
   </body>
