@@ -1,4 +1,8 @@
 <?php require_once('connection.php');
+/**
+ * @author Yasiru
+ * contact me : https://linktr.ee/yasiruchamuditha for more information.
+ */
 //session_start();
 if(isset($_GET['deleteid']))
 {

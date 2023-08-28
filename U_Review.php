@@ -32,7 +32,12 @@
 
     <!--myend-->
 </head>
-     <?php require('M_NavigationBar.php');?>
+     <?php require('M_NavigationBar.php');
+     /**
+ * @author Yasiru
+ * contact me : https://linktr.ee/yasiruchamuditha for more information.
+ */
+     ?>
 <!--myend-->
 <body>
     <!-- Page Header Start -->

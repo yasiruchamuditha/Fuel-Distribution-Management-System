@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * @author Yasiru
+ * contact me : https://linktr.ee/yasiruchamuditha for more information.
+ */
   //connection
     //$con = mysqli_connect("dbserver", "dbuser","dbpassword","dbname" );
     $con = mysqli_connect("localhost:3306", "root","DdCya995142@4681","fuelup" );

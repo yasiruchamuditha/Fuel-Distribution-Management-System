@@ -1,4 +1,8 @@
 <?php require_once('connection.php');
+/**
+ * @author Yasiru
+ * contact me : https://linktr.ee/yasiruchamuditha for more information.
+ */
 if(isset($_POST["btnSubmit"]))
 {
     $Name=$_POST["txtName"];

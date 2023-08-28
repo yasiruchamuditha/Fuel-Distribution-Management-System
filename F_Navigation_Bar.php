@@ -1,4 +1,8 @@
-<?php //navigation bar Admin?>
+<?php //navigation bar Admin
+/**
+ * @author Yasiru
+ * contact me : https://linktr.ee/yasiruchamuditha for more information.
+ */?>
 <!DOCTYPE html>
 <html>
 <head>

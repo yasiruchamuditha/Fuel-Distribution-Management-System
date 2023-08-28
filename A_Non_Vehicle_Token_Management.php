@@ -1,5 +1,9 @@
 <?php require_once('connection.php');
 //session_start();
+/**
+ * @author Yasiru
+ * contact me : https://linktr.ee/yasiruchamuditha for more information.
+ */
 if(isset($_GET['deleteid']))
 {
     $deleteid=$_GET['deleteid'];

@@ -1,4 +1,8 @@
 <?php require_once('connection.php');
+/**
+ * @author Yasiru
+ * contact me : https://linktr.ee/yasiruchamuditha for more information.
+ */
 session_start();
 //Import PHPMailer classes into the global namespace
 //These must be at the top of your script, not inside a function

@@ -1,4 +1,8 @@
-<?php //navigation bar?>
+<?php //navigation bar
+/**
+ * @author Yasiru
+ * contact me : https://linktr.ee/yasiruchamuditha for more information.
+ */?>
 <html>
 <head>
 	<meta charset="utf-8">

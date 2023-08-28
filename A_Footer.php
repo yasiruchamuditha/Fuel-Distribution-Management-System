@@ -1,4 +1,8 @@
-<?php //footer ?>
+<?php //footer 
+ /**
+ * @author Yasiru
+ * contact me : https://linktr.ee/yasiruchamuditha for more information.
+ */ ?>
 <!DOCTYPE html>
 <html>
 <head>

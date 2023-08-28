@@ -149,7 +149,11 @@
 </head>
 
 <body style="background-color: whitesmoke;"> 
- <?php require('navigationBar.php');?>
+ <?php require('navigationBar.php'); 
+ /**
+ * @author Yasiru
+ * contact me : https://linktr.ee/yasiruchamuditha for more information.
+ */?>
      <div class="container-fluid">
           <div class="container">
          <div class="header">
