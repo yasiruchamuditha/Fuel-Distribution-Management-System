@@ -1,10 +1,10 @@
-<?php require_once('connection.php');
+<?php
+require_once('connection.php');
 session_start();  
 /**
  * @author Yasiru
  * contact me : https://linktr.ee/yasiruchamuditha for more information.
  */
-
 //Import PHPMailer classes into the global namespace
 //These must be at the top of your script, not inside a function
 use PHPMailer\PHPMailer\PHPMailer;
@@ -18,118 +18,151 @@ require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 //
 
-if(isset($_POST["btnSubmit"]))
+// Define variables to store messages
+$alertMessage = '';
+$redirectLocation = '';
+
+if (isset($_POST["btnSubmit"])) 
 {
     if (isset($_SESSION["Email"]))
     {
-    //create a new PHPMailer object:
-    $mail = new PHPMailer(true);
+        //var_dump($_POST);
+        $mail = new PHPMailer(true);
 
-    $Registration_No=$_POST["txtRegistrationNo"];
-    $Fuel_Station=$_POST["txtFuelStationCode"]; 
-    $preferd_Date=$_POST["txtpreferdDate"]; 
-    $preferd_Time=$_POST["txtpreferdTime"];
-    $Email=$_POST["txtEmail"]; 
-    $Mobile_No=$_POST["txtMobileNo"];
-    $FuelType=$_POST["FuelType"];
-    $Validity="Valid";
+        $Registration_No=$_POST["txtRegistrationNo"];
+        $Fuel_Station=$_POST["txtFuelStationCode"]; 
+        $preferd_Date=$_POST["txtpreferdDate"]; 
+        $preferd_Time=$_POST["txtpreferdTime"];
+        $Email=$_POST["txtEmail"]; 
+        $Mobile_No=$_POST["txtMobileNo"];
+        $FuelType=$_POST["FuelType"];
+        $Validity="Valid";
 
-    //perform sql
-    $sql = "INSERT INTO token_instrument (Registration_No,Fuel_Station,preferd_Date,preferd_Time,Email,Mobile_No,FuelType,  Validity) VALUES ('$Registration_No','$Fuel_Station','$preferd_Date','$preferd_Time','$Email','$Mobile_No','$FuelType','$Validity')";
+      //perform sql
+      $sql = "INSERT INTO token_instrument (Registration_No,Fuel_Station,preferd_Date,preferd_Time,Email,Mobile_No,FuelType,  Validity) VALUES ('$Registration_No','$Fuel_Station','$preferd_Date','$preferd_Time','$Email','$Mobile_No','$FuelType','$Validity')";
 
-    $ret= mysqli_query($con, $sql);
-    //echo '<script>alert("Successfuly Registered")</script>';
-     
-
-    //email to user when create fuel token
-        try 
+      $ret= mysqli_query($con, $sql);
+       if ($ret > 0)
+       {
+            //EMAIL
+            //email from admin to user when register vehicle
+            try 
+            {
+            //Server settings
+            //$mail->SMTPDebug = 1;                      //Enable verbose debug output
+            $mail->isSMTP();                                            //Send using SMTP
+            $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+            $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+            $mail->Username   = 'fuelupgroup@gmail.com';                     //SMTP username
+            $mail->Password   = 'yxejuwcqpkztsmln';                               //SMTP password
+            $mail->SMTPSecure = 'tls';            //Enable implicit TLS encryption
+            $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+        
+            //Recipients
+            $mail->setFrom('fuelupgroup@gmail.com', 'Fuel Up');
+            //Add a recipient
+            $mail->addAddress($Email);   
+            //$mail->addAddress('ellen@example.com');      //Name is optional
+            //$mail->addReplyTo('info@example.com', 'Information');
+           // $mail->addCC('cc@example.com');
+           // $mail->addBCC('bcc@example.com');
+    
+            //Attachments
+            //$mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
+           // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
+        
+            //Content
+            $mail->isHTML(true);       
+            //$verification_code=substr(number_format(time()*rand(),0,'',''), 0,6) ;                          
+            //Set email format to HTML
+            $mail->Subject = 'Fuel Token Creation';
+            $mail->Body    = '<div style="width: 700px ; background-color:lightskyblue; font-weight: bold;text-align: center;font-family: Arial;font-size: 30pt;">Instrument Fuel Token Creation</div><p>Hi,<br>Dear User,<br><p>We received a request to create Fuel Token On Instrument <b>'.$Registration_No.'</b> on '.$preferd_Date.' at '.$preferd_Time.' For '.$FuelType.' . Please Visit Fuel Station in Token Reserved Date and Time.</p>
+                <p>Please <a href="mailto:fuelupgroup@gmail.com"><b><u>contact us on this mail</u></b></a> or Our <a href="tel:076 471 6214"><b>Hotline</b></a>,If Your did not make a Fuel Token Request from us. </p><p>Thanks for helping us keep your account update.<br>Sincerely yours,<br>The FuelUp Team</p><br>';
+            //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+        
+            $mail->send();
+            //echo 'Message has been sent';
+        } 
+        catch (Exception $e)
         {
-        //Server settings
-        //$mail->SMTPDebug = 1;                      //Enable verbose debug output
-        $mail->isSMTP();                                            //Send using SMTP
-        $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
-        $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-        $mail->Username   = 'fuelupgroup@gmail.com';                     //SMTP username
-        $mail->Password   = 'yxejuwcqpkztsmln';                               //SMTP password
-        $mail->SMTPSecure = 'tls';            //Enable implicit TLS encryption
-        $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-    
-        //Recipients
-        $mail->setFrom('fuelupgroup@gmail.com', 'Fuel Up');
-        //Add a recipient
-        $mail->addAddress($Email);   
-        //$mail->addAddress('ellen@example.com');      //Name is optional
-        //$mail->addReplyTo('info@example.com', 'Information');
-       // $mail->addCC('cc@example.com');
-       // $mail->addBCC('bcc@example.com');
-
-        //Attachments
-        //$mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
-       // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
-    
-        //Content
-        $mail->isHTML(true);       
-        //$verification_code=substr(number_format(time()*rand(),0,'',''), 0,6) ;                          
-        //Set email format to HTML
-        $mail->Subject = 'Fuel Token Creation';
-        $mail->Body    = '<div style="width: 700px ; background-color:lightskyblue; font-weight: bold;text-align: center;font-family: Arial;font-size: 30pt;">Instrument Fuel Token Creation</div><p>Hi,<br>Dear User,<br><p>We received a request to create Fuel Token On Instrument <b>'.$Registration_No.'</b> on '.$preferd_Date.' at '.$preferd_Time.' For '.$FuelType.' . Please Visit Fuel Station in Token Reserved Date and Time.</p>
-            <p>Please <a href="mailto:fuelupgroup@gmail.com"><b><u>contact us on this mail</u></b></a> or Our <a href="tel:076 471 6214"><b>Hotline</b></a>,If Your did not make a Fuel Token Request from us. </p><p>Thanks for helping us keep your account update.<br>Sincerely yours,<br>The FuelUp Team</p><br>';
-        //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-    
-        $mail->send();
-        //echo 'Message has been sent';
-    } 
-    catch (Exception $e)
-     {
-        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-     }
-     header("location:U_Service.php");
-    //disconnect 
-    mysqli_close($con);
+          echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        }
+            //end
+            $alertMessage = "Successfuly Registered";
+            $redirectLocation = "U_Service.php";
+       }
+       else
+       {
+        $alertMessage = "Please Try Again Shortly";
+        $redirectLocation = "S_Token_Creation_Instrument.php";
+       }
+      //disconnect 
+      mysqli_close($con); 
     }
     else
     {
-        header("location:M_User_Login.php");
-    }    
+        $alertMessage = "Please Sign in";
+        $redirectLocation = "M_User_Login.php";
+    }
 }
-?> 
-
+?>
 
 <!DOCTYPE html>
 <html>
 <head>
-   <meta charset="utf-8">
-    <title>Token Creation - Instrument</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Fuel Up" name="keywords">
-    <meta content="Fuel Status" name="description">
-    <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Rubik&display=swap" rel="stylesheet"> 
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" rel="stylesheet">
-    <!-- Libraries Stylesheet -->
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- css Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">  
-    <link href="css/styleToken.css" rel="stylesheet">  
-    <script src="https://kit.fontawesome.com/c4254e24a8.js" crossorigin="anonymous"></script> 
-
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fuelup - Token Creation - Instrument</title>
+    <!-- Template Main CSS File -->
+    <link href="css/styles.css" rel="stylesheet"> 
+    <link href="css/SForm.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/c4254e24a8.js" crossorigin="anonymous"></script>   
 </head>
-<body style="background: url(img/Token1.png);">
- <?php require('M_NavigationBarForms.php');?>
+<body style="background-image: url(img/Token1.png);">
+    <?php require('M_NavigationBarForms.php');?>
+    <div class="container-fluid" id="containerm">
+        <!-- Form start -->
+        <div class="container mt-2" >
+        <h1 >Instrument Token Creation</h1>
+            <?php if (!empty($alertMessage)) : ?>
+                <div class="modal fade" id="outputModal" tabindex="-1" aria-labelledby="outputModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="outputModalLabel">Output Message</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <?php echo $alertMessage; ?>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-<div class="container-fluid">
-<div class="container mt-3" id="container1" style="background: transparent;">
-    <h1 id="h1">Instrument Token Creation</h1>
-<form class="row g-3 needs-validation" action="#" method="post" onsubmit="return result()" >
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var modal = new bootstrap.Modal(document.getElementById('outputModal'));
+                        modal.show();
+                        // Redirect after displaying the message
+                        var redirectLocation = '<?php echo $redirectLocation; ?>';
+                        if (redirectLocation) {
+                            setTimeout(function () {
+                                window.location.href = redirectLocation;
+                            }, 3000); // Redirect after 3 seconds (adjust as needed)
+                        }
+                    });
+                </script>
+            <?php endif; ?>
+            <form class="row g-3 needs-validation" action="#" method="post" onsubmit="return result()" >
 <!--Instrument Registration No-->
   <div class="inputfeild mt-3">
       <label for="Instrument Registration No" class="form-label">Instrument Registration No</label>
@@ -205,6 +238,188 @@ if(isset($_POST["btnSubmit"]))
 </form>
 </div>
 </div>
+<script type="text/javascript">
+       
+    var Registration_Error=document.getElementById('Registration_Error');
+    var Fuel_Station_Code_Error=document.getElementById('Fuel_Station_Code_Error');
+    var Date_Error=document.getElementById('Date_Error');
+    var Time_Error=document.getElementById('Time_Error');
+    var Mobile_Error=document.getElementById('Mobile_Error');
+    var FuelType_Error=document.getElementById('FuelType_Error');
+    var Email_Error=document.getElementById('Email_Error');
+    var Check_Error=document.getElementById('Check_Error');
+
+function validateRegistrationNo()
+{
+ 
+var Registration_no=document.getElementById('txtRegNo').value.replace(/^\s+|\s+$/g, "");
+if(Registration_no.length == 0)
+ {
+   Registration_Error.innerHTML='Registration number is required.';
+   return false;
+ }
+ else
+ {
+
+  var reOLD = /^[0-9]{9}[V]{1}$/;
+  var re  = /^[0-9]{13}$/;
+    //var re = /^[a-zA-Z0-9_]+$/;
+   if((!Registration_no.match(re)) && ((!Registration_no.match(reOLD)) ))
+   {
+   Registration_Error.innerHTML='Please Enter Registration number in correct format and correct length.';
+   return false;
+   }
+  
+ }
+ Registration_Error.innerHTML = '<i class="fa-regular fa-circle-check"></i>';
+ return true;
+}
+
+function validateEmail()
+{
+ var Email = document.getElementById('txtEmail').value.replace(/^\s+|\s+$/g, "");
+ if (Email.length == 0) 
+ {
+    Email_Error.innerHTML='Email is required.';
+   return false;
+ }
+ else
+ {
+   var emaiPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+  if (!Email.match(emaiPattern))
+  {
+   Email_Error.innerHTML='Please Enter Email in correct format.';
+   return false;
+  }
+ Email_Error.innerHTML = '<i class="fa-regular fa-circle-check"></i>';
+ return true;
+ }  
+}
+
+function validateDate()
+{
+ var date = document.getElementById('txtpreferdDate').value.replace(/^\s+|\s+$/g, "");
+ if (date.length == 0) 
+ {
+    Date_Error.innerHTML='Date is required.';
+   return false;
+ }
+ Date_Error.innerHTML = '<i class="fa-regular fa-circle-check"></i>';
+ return true;
+ }  
+
+document.getElementById("txtpreferdDate").addEventListener("click", function() {
+
+ if (document.getElementById("txtpreferdDate").value != "0") {
+
+ Date_Error.innerHTML = '<i class="fa-regular fa-circle-check"></i>';
+ return true;
+}
+});
+
+function validateTime()
+{
+ var date = document.getElementById('txtpreferdTime').value.replace(/^\s+|\s+$/g, "");
+ if (date.length == 0) 
+ {
+    Time_Error.innerHTML='Time is required.';
+   return false;
+ }
+ Time_Error.innerHTML = '<i class="fa-regular fa-circle-check"></i>';
+ return true;
+ }  
+
+document.getElementById("txtpreferdTime").addEventListener("click", function() {
+
+ if (document.getElementById("txtpreferdTime").value != "0") {
+
+ Time_Error.innerHTML = '<i class="fa-regular fa-circle-check"></i>';
+ return true;
+}
+});
+
+function validateMobileNo()
+{
+ var mobileNo = document.getElementById('txtMobileNo').value.replace(/^\s+|\s+$/g, "");
+ if (mobileNo.length == 0) 
+ {
+    Mobile_Error.innerHTML='Mobile Number is required.';
+   return false;
+ }
+ else
+ {
+   var mobilePattern = /^[0-9]{10}$/;
+  if (!mobileNo.match(mobilePattern))
+  {
+   Mobile_Error.innerHTML='Please Enter Mobile Number in correct format.';
+   return false;
+  }
+ Mobile_Error.innerHTML = '<i class="fa-regular fa-circle-check"></i>';
+ return true;
+ }  
+}
+
+function validateFUELTYPE()
+{
+ if(document.getElementById("FuelType").value == "S")
+ {
+ FuelType_Error.innerHTML='Fuel Type  is required.';
+ return false;
+ }
+  FuelType_Error.innerHTML = '<i class="fa-regular fa-circle-check"></i>';
+  return true;
+
+}
+
+document.getElementById("FuelType").addEventListener("click", function() {
+
+ if (document.getElementById("FuelType").value != "S") {
+
+ FuelType_Error.innerHTML = '<i class="fa-regular fa-circle-check"></i>';
+ return true;
+}
+});
+
+function validateTerms()
+{
+ if(document.getElementById("chStatus").checked == false)
+ {
+ Check_Error.innerHTML='Please Agree To Terms and Conditions.';
+ return false;
+ }
+  Check_Error.innerHTML = '<i class="fa-regular fa-circle-check"></i>';
+  return true;
+
+}
+
+document.getElementById("chStatus").addEventListener("click", function() {
+
+ if(document.getElementById('chStatus').checked == true){ 
+
+ Check_Error.innerHTML = '<i class="fa-regular fa-circle-check"></i>';
+ return true;
+}
+});
+
+function result()
+{
+ validateRegistrationNo();
+ validateDate();
+ validateTime();
+ validateMobileNo();
+ validateFUELTYPE();
+ validateEmail();
+ validateTerms();
+
+
+if((!validateRegistrationNo()) || (!validateEmail()) || (!validateDate()) || (!validateTime()) || (!validateMobileNo()) || (!validateFUELTYPE()) || (!validateTerms()) )
+ {
+   return false;
+ }
+}
+</script>
+
+<?php require('M_Footer.php');?>
  
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -216,194 +431,9 @@ if(isset($_POST["btnSubmit"]))
     <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
     <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
-    <!-- css Javascript -->
+    <!-- Template Javascript -->
     <script src="js/main.js"></script>
-    <script type="text/javascript">
-       // localStorage.setItem('code','$verification_code')
-        
-        var Registration_Error=document.getElementById('Registration_Error');
-        var Fuel_Station_Code_Error=document.getElementById('Fuel_Station_Code_Error');
-        var Date_Error=document.getElementById('Date_Error');
-        var Time_Error=document.getElementById('Time_Error');
-        var Mobile_Error=document.getElementById('Mobile_Error');
-        var FuelType_Error=document.getElementById('FuelType_Error');
-        var Email_Error=document.getElementById('Email_Error');
-        var Check_Error=document.getElementById('Check_Error');
-
-
-function validateRegistrationNo()
-{
-  
-var Registration_no=document.getElementById('txtRegNo').value.replace(/^\s+|\s+$/g, "");
-if(Registration_no.length == 0)
-  {
-    Registration_Error.innerHTML='Registration number is required.';
-    return false;
-  }
-  else
-  {
-
-   var reOLD = /^[0-9]{9}[V]{1}$/;
-   var re  = /^[0-9]{13}$/;
-     //var re = /^[a-zA-Z0-9_]+$/;
-    if((!Registration_no.match(re)) && ((!Registration_no.match(reOLD)) ))
-    {
-    Registration_Error.innerHTML='Please Enter Registration number in correct format and correct length.';
-    return false;
-    }
-   
-  }
-  Registration_Error.innerHTML = '<i class="fa-regular fa-circle-check"></i>';
-  return true;
-}
-
-function validateEmail()
-{
-  var Email = document.getElementById('txtEmail').value.replace(/^\s+|\s+$/g, "");
-  if (Email.length == 0) 
-  {
-     Email_Error.innerHTML='Email is required.';
-    return false;
-  }
-  else
-  {
-    var emaiPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
-   if (!Email.match(emaiPattern))
-   {
-    Email_Error.innerHTML='Please Enter Email in correct format.';
-    return false;
-   }
-  Email_Error.innerHTML = '<i class="fa-regular fa-circle-check"></i>';
-  return true;
-  }  
-}
-
-function validateDate()
-{
-  var date = document.getElementById('txtpreferdDate').value.replace(/^\s+|\s+$/g, "");
-  if (date.length == 0) 
-  {
-     Date_Error.innerHTML='Date is required.';
-    return false;
-  }
-  Date_Error.innerHTML = '<i class="fa-regular fa-circle-check"></i>';
-  return true;
-  }  
-
-document.getElementById("txtpreferdDate").addEventListener("click", function() {
-
-  if (document.getElementById("txtpreferdDate").value != "0") {
-
-  Date_Error.innerHTML = '<i class="fa-regular fa-circle-check"></i>';
-  return true;
-}
-});
-
-function validateTime()
-{
-  var date = document.getElementById('txtpreferdTime').value.replace(/^\s+|\s+$/g, "");
-  if (date.length == 0) 
-  {
-     Time_Error.innerHTML='Time is required.';
-    return false;
-  }
-  Time_Error.innerHTML = '<i class="fa-regular fa-circle-check"></i>';
-  return true;
-  }  
-
-document.getElementById("txtpreferdTime").addEventListener("click", function() {
-
-  if (document.getElementById("txtpreferdTime").value != "0") {
-
-  Time_Error.innerHTML = '<i class="fa-regular fa-circle-check"></i>';
-  return true;
-}
-});
-
-function validateMobileNo()
-{
-  var mobileNo = document.getElementById('txtMobileNo').value.replace(/^\s+|\s+$/g, "");
-  if (mobileNo.length == 0) 
-  {
-     Mobile_Error.innerHTML='Mobile Number is required.';
-    return false;
-  }
-  else
-  {
-    var mobilePattern = /^[0-9]{10}$/;
-   if (!mobileNo.match(mobilePattern))
-   {
-    Mobile_Error.innerHTML='Please Enter Mobile Number in correct format.';
-    return false;
-   }
-  Mobile_Error.innerHTML = '<i class="fa-regular fa-circle-check"></i>';
-  return true;
-  }  
-}
-
-function validateFUELTYPE()
-{
-  if(document.getElementById("FuelType").value == "S")
-  {
-  FuelType_Error.innerHTML='Fuel Type  is required.';
-  return false;
-  }
-   FuelType_Error.innerHTML = '<i class="fa-regular fa-circle-check"></i>';
-   return true;
-
-}
-
-document.getElementById("FuelType").addEventListener("click", function() {
-
-  if (document.getElementById("FuelType").value != "S") {
-
-  FuelType_Error.innerHTML = '<i class="fa-regular fa-circle-check"></i>';
-  return true;
-}
-});
-
-function validateTerms()
-{
-  if(document.getElementById("chStatus").checked == false)
-  {
-  Check_Error.innerHTML='Please Agree To Terms and Conditions.';
-  return false;
-  }
-   Check_Error.innerHTML = '<i class="fa-regular fa-circle-check"></i>';
-   return true;
-
-}
-
-document.getElementById("chStatus").addEventListener("click", function() {
-
-  if(document.getElementById('chStatus').checked == true){ 
-
-  Check_Error.innerHTML = '<i class="fa-regular fa-circle-check"></i>';
-  return true;
-}
-});
-
-
-
-function result()
-{
-  validateRegistrationNo();
-  validateDate();
-  validateTime();
-  validateMobileNo();
-  validateFUELTYPE();
-  validateEmail();
-  validateTerms();
- 
-
-if((!validateRegistrationNo()) || (!validateEmail()) || (!validateDate()) || (!validateTime()) || (!validateMobileNo()) || (!validateFUELTYPE()) || (!validateTerms()) )
-  {
-    return false;
-  }
-}
-
-</script>
-
-<?php require('M_Footer.php');?>
 </body>
+
 </html>
+

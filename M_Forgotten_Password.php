@@ -8,7 +8,6 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-
 //Load Composer's autoloader
 //require 'vendor/autoload.php';
 require 'PHPMailer/src/Exception.php';
@@ -16,15 +15,13 @@ require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 //
 
-
 if(isset($_POST["btnSubmit"]))
 {
 	$email=$_POST["txtemail"];
 	//create a new PHPMailer object:
     $mail = new PHPMailer(true);
-    
-    try {
-       
+    try 
+    {
         //Server settings
         //$mail->SMTPDebug = 1;                      //Enable verbose debug output
         $mail->isSMTP();                                            //Send using SMTP
@@ -43,41 +40,33 @@ if(isset($_POST["btnSubmit"]))
         //$mail->addReplyTo('info@example.com', 'Information');
        // $mail->addCC('cc@example.com');
        // $mail->addBCC('bcc@example.com');
-
         //Attachments
         //$mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
        // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
-    
         //Content
         $mail->isHTML(true);       
         $verification_code=substr(number_format(time()*rand(),0,'',''), 0,6) ;                          //Set email format to HTML
         $mail->Subject = 'Account Verification';
         $mail->Body    = '<div style="width: 700px ; background-color:lightskyblue; font-weight: bold;text-align: center;font-family: Arial;font-size: 30pt;">Account Verification Code</div><p>Hi,<br>Dear User,<br>We received a request to reset the password on your FuelUp Account.Your Verification Code is: <b>'.$verification_code.'</b><br>Enter this code to complete the reset of account Password.This code will expire in 24 hours.If you did not request this code, someone probably gave your email address by mistake. You can safely ignore this email.</p><p>please <a href="fuelupgroup@gmail.com"><b><u>contact</u></b></a> us for more Details. </p><p>Thanks for helping us keep your account secure.<br>Sincerely yours,<br>The FuelUp Team</p><br>';
         //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-    
         $mail->send();
         //echo 'Message has been sent';
 
-  
         //perform sql
         $sql = "INSERT INTO passwordupdates(UserEmail,VerificationCode) VALUES ('$email','$verification_code')";
  
         $ret= mysqli_query($con, $sql);
      
         header('location:M_Verify_Code.php');
-   
-
      //disconnect 
       mysqli_close($con);
     } 
     catch (Exception $e)
-     {
-        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-     }
+    {
+      echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    }
    
 }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -104,34 +93,32 @@ if(isset($_POST["btnSubmit"]))
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
     <!-- css Stylesheet -->
     <link href="css/style.css" rel="stylesheet">  
-    <link href="css/forgot.css" rel="stylesheet">  
+    <link href="css/M_Forgotten.css" rel="stylesheet">  
     <script src="https://kit.fontawesome.com/c4254e24a8.js" crossorigin="anonymous"></script> 
 
 </head>
 <body style="background: url(img/Token1.png);">
  <?php require('M_NavigationBarForms.php');?>
 
-<div class="container-fluid">
-<div class="container" style="background: transparent; margin-top: 150px;">
+<div class="container-fluid" id="containerm">
+<div class="container">
     <h1 id="h1">Forgotten Password</h1>
-        <h1 id="h1">User Account</h1>
-<form class="row g-3 needs-validation" action="#" method="post" onsubmit="return result()" >
-  <div class="inputfeild mt-3">
-  	<label for="heading" class="form-label">Please Enter Your UserEmail To Get Verification Code.</label>
-      <label for="Email" class="form-label">User Email</label>
-      <input type="email" class="form-control" id="txtEmail" name="txtemail" placeholder="User Email" onkeyup="validateEmail()" >
-        <span id="Email_Error"></span>
-  </div>
-
- <!--Button-->
-  <button type="submit" id="btnSubmit" class="btn btn-outline-dark btn-lg" name="btnSubmit">Continue</button>
-
-</form>
+    <h1 id="h1">User Account</h1>
+      <form class="row g-3 needs-validation" action="#" method="post" onsubmit="return result()" >
+          <div class="inputfeild mt-5">
+              <label for="heading" class="form-label">Please Enter Your UserEmail To Get Verification Code for Account Verification.</label><br>
+              <label for="Email" class="form-label">User Email</label>
+              <input type="email" class="form-control" id="txtEmail" name="txtemail" placeholder="User Email" onkeyup="validateEmail()" >
+              <span id="Email_Error"></span>
+          </div>
+        <!--Button-->
+        <button type="submit" id="btnSubmit" class="btn btn-outline-dark btn-lg mt-5" name="btnSubmit">Continue</button>
+      </form>
 </div>
 </div>
 
 <script type="text/javascript">
-	  var Email_Error=document.getElementById('Email_Error');
+var Email_Error=document.getElementById('Email_Error');
 function validateEmail()
 {
   var Email = document.getElementById('txtEmail').value.replace(/^\s+|\s+$/g, "");
@@ -162,7 +149,7 @@ if(!validateEmail())
     return false;
   }
 }
-
 </script>
+<?php require('M_Footer.php');?>
 </body>
 </html>

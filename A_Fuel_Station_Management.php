@@ -4,19 +4,25 @@
  * contact me : https://linktr.ee/yasiruchamuditha for more information.
  */
 //session_start();
-if(isset($_GET['deleteid']))
+$statusMessage = '';
+
+if(isset($_POST['btnDelete']))
 {
-	$deleteid=$_GET['deleteid'];
-	$sql="Delete from fuel_station_registration where Registration_No='$deleteid' ";
-	$ret= mysqli_query($con, $sql);
-	 if ($ret) 
-	  {
-	  	echo '<script>alert("Successfuly Deleted")</script>';
-	  }
-	  else
-	  {
-	  	echo '<script>alert("Please Try Again Shortly....")</script>';
-	  }
+	$deleteid=$_POST['deleteid'];
+	$sql="DELETE FROM fuel_station_registration WHERE Registration_No=? ";
+    $stmt = mysqli_prepare($con, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $deleteid);
+    $ret = mysqli_stmt_execute($stmt);
+
+    if ($ret) 
+    {
+        $statusMessage = '<div class="alert alert-success" role="alert">Successfully Deleted</div>';
+    } 
+    else 
+    {
+        $statusMessage = '<div class="alert alert-danger" role="alert">Please Try Again Shortly...</div>';
+    }
+    mysqli_stmt_close($stmt);
 }
 ?>
 
@@ -24,7 +30,7 @@ if(isset($_GET['deleteid']))
 <html>
 <head>
 	<meta charset="utf-8">
-    <title>Admin Panel-Fuel Station Management</title>
+    <title>Admin Panel- Fuel Station Management</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Fuel Up" name="keywords">
     <meta content="Fuel Status" name="description">
@@ -42,81 +48,97 @@ if(isset($_GET['deleteid']))
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- css Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
-    <link href="css/styleAdmin.css" rel="stylesheet">  
+    <!-- Template Stylesheet -->
+    <link href="css/styles.css" rel="stylesheet"> 
+     <link href="css/styleAMP.css" rel="stylesheet"> 
 </head>
 
 <body>
 <?php require('A_Navigation_Bar.php');?>
-<div class="container">
-<h1>Admin Panel - Fuel Station Profile Management </h1>
+
+<div class="container"> 
+<h1>Admin Panel -Fuel Station Management </h1>
 <p class="header">Add New Fuel Station Profiles - 
 <button class="btn btn-primary"><a href="A_Fuel_Station_Registration.php" class="text-light">Click Here</a></button><p>
 <p  class="header">Fuel Stations</p>
 <table class="table">
-<thead>	
-    <tr  class="table-info">
-      <th scope="col">Reg No</th>
-      <th scope="col">Supplier Type</th>
-      <th scope="col">Name</th>
-      <th scope="col">City</th>
-      <th scope="col">Tel No</th>
-      <th scope="col">Fax No</th>
-      <th scope="col">Email</th>
-      <th scope="col">Owner Name</th>
-      <th scope="col">Mobile No</th>
-      <th scope="col">Operation</th>
-    </tr>
- </thead>
-  <tbody>
- <?php
- $sql="SELECT Registration_No,Supplier_Type,Station_Name,City,Telephone_No,Fax_No,Email,Owner_Name,Owner_Mobile_No FROM fuel_station_registration";
- $ret= mysqli_query($con, $sql);
- if ($ret) 
- {
- 	while($row=mysqli_fetch_assoc($ret))
- 	{
- 		$Registration_No=$row['Registration_No'];
- 		$Supplier_Type=$row['Supplier_Type'];
- 		$Station_Name=$row['Station_Name'];
- 		$City=$row['City'];
- 		$Telephone_No=$row['Telephone_No'];
-        $Fax_No=$row['Fax_No'];
-        $Email=$row['Email'];
-        $Owner_Name=$row['Owner_Name'];
-        $Owner_Mobile_No=$row['Owner_Mobile_No'];
+    <thead>	
+        <tr  class="table-info">
+            <th scope="col">Reg No</th>
+            <th scope="col">Supplier Type</th>
+            <th scope="col">Name</th>
+            <th scope="col">City</th>
+            <th scope="col">Tel No</th>
+            <th scope="col">Fax No</th>
+            <th scope="col">Email</th>
+            <th scope="col">Owner Name</th>
+            <th scope="col">Mobile No</th>
+            <th scope="col">Operation</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+            $sql="SELECT * FROM fuel_station_registration";
+            $ret= mysqli_query($con, $sql);
+            if ($ret) 
+            {
+                while($row=mysqli_fetch_assoc($ret))
+                {
+                    $Registration_No = htmlspecialchars($row['Registration_No']);
+                    $Supplier_Type = htmlspecialchars($row['Supplier_Type']);
+                    $Station_Name = htmlspecialchars($row['Station_Name']);
+                    $City = htmlspecialchars($row['City']);
+                    $Telephone_No = htmlspecialchars($row['Telephone_No']);
+                    $Fax_No = htmlspecialchars($row['Fax_No']);
+                    $Email = htmlspecialchars($row['Email']);
+                    $Owner_Name = htmlspecialchars($row['Owner_Name']);
+                    $Owner_Mobile_No = htmlspecialchars($row['Owner_Mobile_No']);
+                
+                    echo'<tr>
+                        <th scope="row">'.$Registration_No.'</th>
+                        <td>'.$Supplier_Type.'</td>
+                        <td>'.$Station_Name.'</td>
+                        <td>'.$City.'</td>
+                        <td>'.$Telephone_No.'</td>
+                        <td>'.$Fax_No.'</td>
+                        <td>'.$Email.'</td>
+                        <td>'.$Owner_Name.'</td>
+                        <td>'.$Owner_Mobile_No.'</td>
+                        <td>
+                            <form method="post">
+                                <input type="hidden" name="deleteid" value="' . $Registration_No . '">
+                                <button type="submit" class="btn btn-danger" name="btnDelete">Delete</button>
+                            </form>
+                        </td>
+                        </tr>';
+                }  
+            }
+        ?>
 
- 		echo'<tr>
-              <th scope="row">'.$Registration_No.'</th>
-              <td>'.$Supplier_Type.'</td>
-              <td>'.$Station_Name.'</td>
-              <td>'.$City.'</td>
-              <td>'.$Telephone_No.'</td>
-              <td>'.$Fax_No.'</td>
-              <td>'.$Email.'</td>
-              <td>'.$Owner_Name.'</td>
-              <td>'.$Owner_Mobile_No.'</td>
-              <td><button class="btn btn-danger" name="btnDelete"><a href="A_Fuel_Station_Management.php?deleteid='.$Registration_No.'" class="text-light">Delete</a></button></td>
-             </tr>';
- 	}
- }
-?>
-</tbody>
+    </tbody>
 </table>
 </div>
-<?php require('A_Footer.php');?>
 
- <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="lib/tempusdominus/js/moment.min.js"></script>
-    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
-    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Display the status message below the table only if it's set and use JavaScript to remove it after 3 seconds -->
+<?php if (!empty($statusMessage)) { ?>
+    <div class="container">
+        <div id="statusMessage" class="alert <?php echo strpos($statusMessage, 'alert-success') !== false ? 'alert-success' : 'alert-danger'; ?>" role="alert">
+            <?php echo $statusMessage; ?>
+        </div>
+    </div>
+    <script>
+        // Remove the status message after 3 seconds
+        setTimeout(function () {
+            var statusMessage = document.getElementById('statusMessage');
+            if (statusMessage) {
+                statusMessage.style.display = 'none';
+            }
+        }, 4000); // 4 seconds (4000 milliseconds)
+    </script>
+<?php } ?>
 
+
+<?php require_once('A_MFooter.php');?>
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
 </body>

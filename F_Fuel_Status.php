@@ -66,13 +66,13 @@ if(isset($_POST["btnSubmit"]))
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">   
-    <link href="css/FUELSTATUS.css" rel="stylesheet">      
+    <link href="css/F_FuelStatus.css" rel="stylesheet">      
 </head>
 <body style="background: url(img/fuelprice.png);">
  <?php require('F_Navigation_Bar.php');?>
 
 <!--Form START-->
-  <div class="container-fluid">
+  <div class="container-fluid" id="containerm">
   <div class="container mt-2 ">
     <h1 >Fuel Status -For Fuel Station </h1>
 <form class="row g-3" action="#" method="post" onsubmit="return result()">

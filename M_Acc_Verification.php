@@ -1,9 +1,9 @@
 <?php require_once('connection.php');
+session_start();  
 /**
  * @author Yasiru
  * contact me : https://linktr.ee/yasiruchamuditha for more information.
  */
-session_start();
 //Import PHPMailer classes into the global namespace
 //These must be at the top of your script, not inside a function
 use PHPMailer\PHPMailer\PHPMailer;
@@ -16,6 +16,9 @@ require 'PHPMailer/src/Exception.php';
 require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 //
+$alertMessage = '';
+$redirectLocation = '';
+
 if(isset($_POST["btnSubmit"]))
 {
      if (isset($_SESSION["Email"]))
@@ -29,7 +32,7 @@ if(isset($_POST["btnSubmit"]))
                      $mail = new PHPMailer(true);
                      $Email=$_POST["txtEmail"];  
                      $date = date('d-m-y h:i:s');
-    try
+        try
         {
         //Server settings
         //$mail->SMTPDebug = 1;                      //Enable verbose debug output
@@ -73,7 +76,9 @@ if(isset($_POST["btnSubmit"]))
         $sql1 = "INSERT INTO qr_code_verification(Email,Code) VALUES ('$Email','$verification_code')";
  
         $ret1= mysqli_query($con, $sql1);
-        header('location:VerifyQrCode.php'); 
+
+        $alertMessage = "Succesfully send the code";
+        $redirectLocation = "M_Verify_Qr_Code.php"; 
 
       //disconnect 
       mysqli_close($con);
@@ -82,27 +87,27 @@ if(isset($_POST["btnSubmit"]))
       {
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
       }       
- 
     }
     else
     {
-       echo '<script>alert("Please Enter Valid UserEmail")</script>';  
+       $alertMessage = "Please Enter Valid UserEmail";
+       $redirectLocation = "M_Acc_Verification.php"; 
     }   
 }
 else
 {
-    echo '<script>alert(" Fileds cannot be blank")</script>';
+    $alertMessage = "Fileds cannot be blank";
+    $redirectLocation = "M_Acc_Verification.php";
+    
 }
         
     }
      else
      {
-         echo '<script>alert("Please SignIn Before Reset Password")</script>';
-         header('location:user_login.php'); 
+         $alertMessage = "Please Sign in";
+         $redirectLocation = "M_User_Login.php"; 
      }
-}
-
-  
+} 
 ?>
 
 <!DOCTYPE html>
@@ -114,36 +119,62 @@ else
     <meta content="Fuel Up" name="keywords">
     <meta content="Fuel Status" name="description">
 
-    <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Rubik&display=swap" rel="stylesheet"> 
-    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" rel="stylesheet">
-    <!-- Libraries Stylesheet -->
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
-    <!-- Customized Bootstrap Stylesheet -->
-     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Template Stylesheet -->
-    <link href="css/styles.css" rel="stylesheet">
-    <link href="css/forgot.css" rel="stylesheet">  
+    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+        <link href="css/M_Forgotten.css" rel="stylesheet">  
+    <script src="https://kit.fontawesome.com/c4254e24a8.js" crossorigin="anonymous"></script> 
 </head>
 
 <body style="background: url(img/Token1.png);">
-    <?php require('navigationBarForms.php');?>
+    <?php require('M_NavigationBarForms.php');?>
     <h1 style="text-align: center;">Create QR Code</h1>
-<div class="container-fluid">
-<div class="container" style="background: transparent; margin-top: 50px; height: auto;">
-<h1 id="h1">Verify Your User Account</h1>
-        
+<div class="container-fluid" id="containerm">
+<div class="container">
+<h1>Verify Your User Account</h1>
+<?php if (!empty($alertMessage)) : ?>
+                <div class="modal fade" id="outputModal" tabindex="-1" aria-labelledby="outputModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="outputModalLabel">Output Message</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <?php echo $alertMessage; ?>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var modal = new bootstrap.Modal(document.getElementById('outputModal'));
+                        modal.show();
+                        // Redirect after displaying the message
+                        var redirectLocation = '<?php echo $redirectLocation; ?>';
+                        if (redirectLocation) {
+                            setTimeout(function () {
+                                window.location.href = redirectLocation;
+                            }, 3000); // Redirect after 3 seconds (adjust as needed)
+                        }
+                    });
+                </script>
+            <?php endif; ?>
+      
 <form class="row g-3 needs-validation" action="#" method="post" onsubmit="return result()" >
  <div class="inputfeild mt-3">
-    <label for="heading" class="form-label">Please Enter userEmail</label>
-      <input type="text" class="form-control" id="txtEmail" name="txtEmail" placeholder="User Email" onkeyup="validateEmail()" style="margin-top: 50px;">
+    <label for="heading" class="form-label mt-3">Please Enter userEmail</label>
+      <input type="text" class="form-control mt-3" id="txtEmail" name="txtEmail" placeholder="User Email" onkeyup="validateEmail()">
         <span id="Code_Error"></span>
      </div>
  <!--Button-->
@@ -189,7 +220,7 @@ if(!validateEmail())
 
 </script>
 
- <?php require('footer.php');?>
+ <?php require('M_Footer.php');?>
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

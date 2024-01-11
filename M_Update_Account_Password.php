@@ -1,9 +1,9 @@
 <?php require_once('connection.php');
+   session_start();
 /**
  * @author Yasiru
  * contact me : https://linktr.ee/yasiruchamuditha for more information.
  */
-   session_start();
 //Import PHPMailer classes into the global namespace
 //These must be at the top of your script, not inside a function
 use PHPMailer\PHPMailer\PHPMailer;
@@ -16,7 +16,8 @@ require 'PHPMailer/src/Exception.php';
 require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 //
-
+$alertMessage = '';
+$redirectLocation = '';
 
 
 if(isset($_POST["btnSubmit"]))
@@ -30,96 +31,40 @@ if (isset($_SESSION["Email"]))
     $Password=$_POST["txtPassword"]; 
      if(empty($Email) || empty($Password))
     {
-      echo '<script>alert(" Fileds cannot be blank")</script>';
+      $alertMessage = "Fileds cannot be blank";
+      $redirectLocation = "M_Update_Account_Password.php";
     }
     else
     {
         if (!filter_var($Email, FILTER_VALIDATE_EMAIL)) 
         {
-            echo '<script>alert("Please Enter Valid UserEmail")</script>';       
+            $alertMessage = "Please Enter Valid UserEmail";
+            $redirectLocation = "M_Update_Account_Password.php";       
         }
         else
         {
             //perform sql
-        $sql = "SELECT * FROM user_registration WHERE  Password='$Password' and Email='$Email' ";
-        $result= mysqli_query($con, $sql);
-        $num_row = mysqli_num_rows($result);
+          $sql1 = "SELECT * FROM user_registration WHERE  Password='$Password' and Email='$Email' ";
+          $result= mysqli_query($con, $sql1);
+          $num_row = mysqli_num_rows($result);
 
-         if ($num_row >0) 
-         { 
-               //perform sql
-             $sql = "UPDATE user_registration SET Password='$password' where Email='$Email' ";
-
-             $ret= mysqli_query($con, $sql);
-
-               try {
-       
-        //Server settings
-        //$mail->SMTPDebug = 1;                      //Enable verbose debug output
-        $mail->isSMTP();                                            //Send using SMTP
-        $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
-        $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-        $mail->Username   = 'fuelupgroup@gmail.com';                     //SMTP username
-        $mail->Password   = 'yxejuwcqpkztsmln';                               //SMTP password
-        $mail->SMTPSecure = 'tls';            //Enable implicit TLS encryption
-        $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-    
-        //Recipients
-        $mail->setFrom('fuelupgroup@gmail.com', 'Fuel Up');
-        //Add a recipient
-        $mail->addAddress($Email);   
-        //$mail->addAddress('ellen@example.com');      //Name is optional
-        //$mail->addReplyTo('info@example.com', 'Information');
-       // $mail->addCC('cc@example.com');
-       // $mail->addBCC('bcc@example.com');
-
-        //Attachments
-        //$mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
-       // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
-    
-        //Content
-        $mail->isHTML(true);       
-        //$verification_code=substr(number_format(time()*rand(),0,'',''), 0,6) ;                          //Set email format to HTML
-        $mail->Subject = 'Account recovered successfully';
-        $mail->Body    = '<div style="width: 700px ; background-color:lightskyblue; font-weight: bold;text-align: center;font-family: Arial;font-size: 30pt;">Account recovered successfully</div><p>Hi,<br>Dear User,<br><b>Welcome back to your account.</b></p><p>If you suspect you were locked out of your account because of changes made by someone else, please <a href="fuelupgroup@gmail.com"><b><u>contact</u></b></a> us immediately to protect your account.</p>
-            <p>Thanks for helping us keep your account secure<br>Sincerely yours,<br>The FuelUp Team</p>';
-        //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-    
-        $mail->send();
-        //echo 'Message has been sent';
-
-         } 
-         catch (Exception $e)
-         {
-          echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-         }
-
-
-          header('location:user_login.php');
-
-           echo '<script>alert("Succesfuly Update Your Password , Please Sign In")</script>';
-           //disconnect 
-           mysqli_close($con);
-
-         }
-         else
-         {
-
-
-               echo '<script>alert("Invalid Username and Password Combination")</script>';
-             header('location:user_login.php');
-
-         }
-
-
+          if ($num_row >0) 
+          { 
+            $alertMessage = "Completed";
+            $redirectLocation = "M_Update_Password.php"; 
+          }
+          else
+          {
+              $alertMessage = "Invalid Username and Password Combination";
+              $redirectLocation = "M_User_Login.php";
+          }
         }
     }
-
 }
 else
 {
-    echo '<script>alert("Please SignIn")</script>';
-    header('location:user_login.php');
+    $alertMessage = "Please Sign In";
+    $redirectLocation = "M_User_Login.php";
 }
 
 }
@@ -134,62 +79,111 @@ else
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
-    <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
-
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Rubik&display=swap" rel="stylesheet"> 
-
     <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" rel="stylesheet">
-
-    <!-- Libraries Stylesheet -->
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
     <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet"/>
-
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
-     <!-- Boxicons CSS -->
-    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet"/>
-    <!-- css Stylesheet -->
-    <link href="css/stylelogin1.css" rel="stylesheet">   
- 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+        <link href="css/M_Forgotten.css" rel="stylesheet">  
+    <script src="https://kit.fontawesome.com/c4254e24a8.js" crossorigin="anonymous"></script> 
 </head>
 <body style="background: url(img/Token1.png);">
-    <div class="container-fluid">
+<?php require('M_NavigationBarForms.php');?>
+    <div class="container-fluid" id="containerm">
      <div class="container">
 	   <h1>Reset Password</h1>
-        <form action="#" method="post" name="frmlogin" onsubmit="return validateForm()">
 
-            <div class="field email-field" >
+     <?php if (!empty($alertMessage)) : ?>
+                <div class="modal fade" id="outputModal" tabindex="-1" aria-labelledby="outputModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="outputModalLabel">Output Message</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <?php echo $alertMessage; ?>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var modal = new bootstrap.Modal(document.getElementById('outputModal'));
+                        modal.show();
+                        // Redirect after displaying the message
+                        var redirectLocation = '<?php echo $redirectLocation; ?>';
+                        if (redirectLocation) {
+                            setTimeout(function () {
+                                window.location.href = redirectLocation;
+                            }, 3000); // Redirect after 3 seconds (adjust as needed)
+                        }
+                    });
+                </script>
+            <?php endif; ?>
+        <form action="#" method="post" name="frmlogin" autocomplete="off" onsubmit="return validateForm()">
+        <label for="headling" class="form-label" >Please verify Your Account Before Reset Password</label>
+        <div class="inputfeild mt-3">
                 <label for="UserEmail" class="form-label" >UserEmail</label>
                   <div class="input-field">
                     <input type="email" name="txtEmail" id="txtEmail"  class="email form-control"  placeholder="UserEmail" onkeyup="validateEmail()">
                   </div>
                    <span id="Email_Error"></span>
-                   
             </div>
 
-         <div class="field create-password">
-             <label for="Password" class="form-label">Password</label>
-             <div class="input-field">
-               <input type="password" placeholder="Create password" name="txtPassword" id="txtPassword" class="password form-control"  onkeyup="validatePassword()" />
-               <i class="bx bx-hide show-hide"></i>
-            </div>
-             <span id="Password_Error"></span>
+            <div class="inputfeild mt-3">
+            <label class="form-label mb-2">Password:</label>
+            <div class="input-group">
+                <input type="password" class="form-control" name="txtPassword" id="txtPassword" placeholder="Enter Password" onkeyup="validatePassword()">
+                <button type="button" class="btn btn-outline-secondary" id="showPasswordBtn">
+                    <i class="bx bx-hide show-hide"></i>
+                </button>
          </div>
+    <span id="Password_Error"></span>
+    </div>
 
             <div class="input-field button">
-              <input type="submit" name="btnSubmit" id="myBtn" value="Submit">
+              <input type="submit" class="btn btn-outline-primary btn-lg"  name="btnSubmit"id="btnSubmit" value="Submit">
             </div> 
         </form>
     </div>
    </div>
    <!-- JavaScript -->
+   <script>
+    // Function to toggle password visibility
+    function togglePasswordVisibility(inputId, buttonId) {
+        const passwordInput = document.getElementById(inputId);
+        const showHideButton = document.getElementById(buttonId);
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            showHideButton.innerHTML = '<i class="bx bx-show show-hide"></i>';
+        } else {
+            passwordInput.type = "password";
+            showHideButton.innerHTML = '<i class="bx bx-hide show-hide"></i>';
+        }
+    }
+
+    // Event listeners for the show/hide buttons
+    document.getElementById("showPasswordBtn").addEventListener("click", function () {
+        togglePasswordVisibility("txtPassword", "showPasswordBtn");
+    });
+
+    document.getElementById("showConfirmPasswordBtn").addEventListener("click", function () {
+        togglePasswordVisibility("txtConfirm_Password", "showConfirmPasswordBtn");
+    });
+</script>
+
+
 <script type="text/javascript" >
 //Validtion
 
@@ -239,20 +233,7 @@ function validatePassword()
   }  
 }
 
-//CHECK CHECK BOX STATUS
-const checkInput = document.getElementById("chStatus");
 
-checkInput.addEventListener("chStatus", () => {
-  checkInput.setCustomValidity("");
-  checkInput.checkValidity();
-});
-
-checkInput.addEventListener("invalid", () => {
-  if (checkInput.value === "")
-   {
-    checkInput.setCustomValidity("Please agree to Terms and Conditions.");
-  } 
-});
 
 //ON SUBMIT FORM 
 function validateForm()
@@ -266,32 +247,8 @@ if((!validateEmail() )|| (!validatePassword()) )
   }
 }
 
-
-//method to convert password to text
- const form =document.querySelector("form"),
- passField = form.querySelector(".create-password"),
- passInput = passField.querySelector(".password");
-
-  // Hide and show password
-  const eyeIcons = document.querySelectorAll(".show-hide");
-
-   eyeIcons.forEach((eyeIcon) => {
-
-    eyeIcon.addEventListener("click", () => {
-
-    const pInput = eyeIcon.parentElement.querySelector("input"); //getting parent element of eye icon and selecting the password input
-    if (pInput.type === "password") 
-    {
-      eyeIcon.classList.replace("bx-hide", "bx-show");
-      return (pInput.type = "text");
-    }
-    eyeIcon.classList.replace("bx-show", "bx-hide");
-    pInput.type = "password";
-  });
-});
-
-
 </script>
+<?php require('M_Footer.php');?>
 </body>
 </html>
 

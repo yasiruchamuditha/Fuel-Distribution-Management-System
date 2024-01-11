@@ -68,25 +68,26 @@ session_start();
  		$Updated_Time=$row['Updated_Time'];
  		$Petrol_92=$row['Petrol_92'];
  		$Petrol_95=$row['Petrol_95'];
-        $Diesel=$row['Diesel'];
-        $Super_Diesel=$row['Super_Diesel'];
-        $Kerosine_Oil=$row['Kerosine_Oil'];
-        $Industrial_Kerosine_Oil=$row['Industrial_Kerosine_Oil'];
-        $Fuel_Oil=$row['Fuel_Oil'];
+    $Diesel=$row['Diesel'];
+    $Super_Diesel=$row['Super_Diesel'];
+    $Kerosine_Oil=$row['Kerosine_Oil'];
+    $Industrial_Kerosine_Oil=$row['Industrial_Kerosine_Oil'];
+    $Fuel_Oil=$row['Fuel_Oil'];
+
  		echo'<tr style="height: 65px; overflow:auto;">
-              <th scope="row">'.$Supplier_Type.'</th>
-              <td>'.$Updated_Date.'</td>
-              <td>'.$Updated_Time.'</td>
-              <td>'.$Petrol_92.'</td>
-              <td>'.$Petrol_95.'</td>
-              <td>'.$Diesel.'</td>
-              <td>'.$Super_Diesel.'</td>
-              <td>'.$Kerosine_Oil.'</td>
-              <td>'.$Industrial_Kerosine_Oil.'</td>
-              <td>'.$Fuel_Oil.'</td>
-              <td><button class="btn btn-info" name="btnupdate"><a href="A_Fuel_Price_Update.php" class="text-light">Update</a></button></td>
-             </tr>';
-             
+            <th scope="row">'.$Supplier_Type.'</th>
+            <td>'.$Updated_Date.'</td>
+            <td>'.$Updated_Time.'</td>
+            <td>'.$Petrol_92.'</td>
+            <td>'.$Petrol_95.'</td>
+            <td>'.$Diesel.'</td>
+            <td>'.$Super_Diesel.'</td>
+            <td>'.$Kerosine_Oil.'</td>
+            <td>'.$Industrial_Kerosine_Oil.'</td>
+            <td>'.$Fuel_Oil.'</td>
+            <td><button class="btn btn-info" name="btnupdate"><a href="A_Fuel_Price_Update.php" class="text-light">Update</a></button></td>
+          </tr>';
+            
  	}
  }
 ?>

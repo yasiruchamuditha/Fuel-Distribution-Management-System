@@ -1,5 +1,6 @@
-<?php require_once('connection.php');
-session_start();
+<?php
+require_once('connection.php');
+session_start();  
 /**
  * @author Yasiru
  * contact me : https://linktr.ee/yasiruchamuditha for more information.
@@ -17,138 +18,153 @@ require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 //
 
-if(isset($_POST["btnSubmit"]))
+// Define variables to store messages
+$alertMessage = '';
+$redirectLocation = '';
+
+if (isset($_POST["btnSubmit"])) 
 {
-   //var_dump($_POST);
-    $mail = new PHPMailer(true);
+    if (isset($_SESSION["Email"]))
+    {
+        //var_dump($_POST);
+        $mail = new PHPMailer(true);
 
-  if (isset($_SESSION["Email"]))
-  {
-    $Email=$_POST["txtEmail"];
-    $Reg_No=$_POST["txtRegNo"];
-    $Engine_No=$_POST["txtEngineNo"];
-    $Chassis_No=$_POST["txtChassisNo"]; 
-    $Vehicle_Class=$_POST["VehicleClass"];
-    $Fuel_Type=$_POST["cmbFuelType"];
-  
-  //perform sql
-   $sql = "INSERT INTO vehicle_registration (Reg_No,Engine_No,Chassis_No,Vehicle_Class,Fuel_Type) VALUES ('$Reg_No','$Engine_No','$Chassis_No','$Vehicle_Class','$Fuel_Type')";
-
-   $ret= mysqli_query($con, $sql);
-   if ($ret > 0)
-   {
-
-    //EMAIL
-     //
-    //email from admin to user when register vehicle
-        try 
-        {
-        //Server settings
-        //$mail->SMTPDebug = 1;                //Enable verbose debug output
-        $mail->isSMTP();                       //Send using SMTP
-        $mail->Host       = 'smtp.gmail.com';  //Set the SMTP server to send through
-        $mail->SMTPAuth   = true;              //Enable SMTP authentication
-        $mail->Username   = 'fuelupgroup@gmail.com';  //SMTP username
-        $mail->Password   = 'yxejuwcqpkztsmln';       //SMTP password
-        $mail->SMTPSecure = 'tls';            //Enable implicit TLS encryption
-        $mail->Port       = 587;              //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-        //Recipients
-        $mail->setFrom('fuelupgroup@gmail.com', 'Fuel Up');
-        //Add a recipient
-          $mail->addAddress($Email);    
-        //$mail->addAddress('ellen@example.com');               //Name is optional
-        //$mail->addReplyTo('info@example.com', 'Information');
-       // $mail->addCC('cc@example.com');
-       // $mail->addBCC('bcc@example.com');
-        //Attachments
-        //$mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
-       // $mail->addAttachment('/tmp/image.jpg', 'new.jpg'); 
-          //Optional name
-        //Content
-        $mail->isHTML(true);       
-        
-        //$verification_code=substr(number_format(time()*rand(),0,'',''), 0,6);                          
-        //Set email format to HTML
-        $mail->Subject = 'Vehicle Registration';
-        $mail->Body    = '<div style="width: 700px ; background-color:lightskyblue; font-weight: bold;text-align: center;font-family: Arial;font-size: 30pt;">Vehicle Registration</div>
-          <div style="width: 700px; height:1500px; background-color:white;font-family: Arial;">
-          <p>Hi,<br>Dear user,<br>Your Vehicle on '.$Reg_No.' is successfully Registered on fuelup.</p><p>You Can Reserve Your Fuel Tokens From us & You can check latest Fuel Prices in Sri Lanka</p>
-           <p>please <a href="mailto:fuelupgroup@gmail.com"><b><u>contact</u></b></a> us for more Details. </p>
-            <p>Thank You.<br>Sincerely yours,<br>The FuelUp Team</p>
-            </div>';
-        //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+        $Email=$_POST["txtEmail"];
+        $Reg_No=$_POST["txtRegNo"];
+        $Engine_No=$_POST["txtEngineNo"];
+        $Chassis_No=$_POST["txtChassisNo"]; 
+        $Vehicle_Class=$_POST["VehicleClass"];
+        $Fuel_Type=$_POST["cmbFuelType"];
+      
+      //perform sql
+       $sql = "INSERT INTO vehicle_registration (Reg_No,Engine_No,Chassis_No,Vehicle_Class,Fuel_Type) VALUES ('$Reg_No','$Engine_No','$Chassis_No','$Vehicle_Class','$Fuel_Type')";
     
-        $mail->send();
-        //echo 'Message has been sent';
+       $ret= mysqli_query($con, $sql);
+       if ($ret > 0)
+       {
+            //EMAIL
+            //email from admin to user when register vehicle
+            try 
+            {
+            //Server settings
+            //$mail->SMTPDebug = 1;                //Enable verbose debug output
+            $mail->isSMTP();                       //Send using SMTP
+            $mail->Host       = 'smtp.gmail.com';  //Set the SMTP server to send through
+            $mail->SMTPAuth   = true;              //Enable SMTP authentication
+            $mail->Username   = 'fuelupgroup@gmail.com';  //SMTP username
+            $mail->Password   = 'yxejuwcqpkztsmln';       //SMTP password
+            $mail->SMTPSecure = 'tls';            //Enable implicit TLS encryption
+            $mail->Port       = 587;              //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+            //Recipients
+            $mail->setFrom('fuelupgroup@gmail.com', 'Fuel Up');
+            //Add a recipient
+            $mail->addAddress($Email);    
+            //$mail->addAddress('ellen@example.com');               //Name is optional
+            //$mail->addReplyTo('info@example.com', 'Information');
+            // $mail->addCC('cc@example.com');
+            // $mail->addBCC('bcc@example.com');
+            //Attachments
+            //$mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
+            // $mail->addAttachment('/tmp/image.jpg', 'new.jpg'); 
+            //Optional name
+            //Content
+            $mail->isHTML(true);       
+            
+            //$verification_code=substr(number_format(time()*rand(),0,'',''), 0,6);                          
+            //Set email format to HTML
+            $mail->Subject = 'Vehicle Registration';
+            $mail->Body    = '<div style="width: 700px ; background-color:lightskyblue; font-weight: bold;text-align: center;font-family: Arial;font-size: 30pt;">Vehicle Registration</div>
+            <div style="width: 700px; height:1500px; background-color:white;font-family: Arial;">
+            <p>Hi,<br>Dear user,<br>Your Vehicle on '.$Reg_No.' is successfully Registered on fuelup.</p><p>You Can Reserve Your Fuel Tokens From us & You can check latest Fuel Prices in Sri Lanka</p>
+            <p>please <a href="mailto:fuelupgroup@gmail.com"><b><u>contact</u></b></a> us for more Details. </p>
+                <p>Thank You.<br>Sincerely yours,<br>The FuelUp Team</p>
+                </div>';
+            //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
-         } 
-         catch (Exception $e)
-         {
-           echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-         }
-        //end
+            $mail->send();
+            //echo 'Message has been sent';
 
-
-    //END
-   
-    echo '<script>alert("Successfuly Registered")</script>';
-  header("location:U_Service.php");
-   }
-   else
-   {
-    echo '<script>alert("Please Try Again Shortly.....")</script>';
-    header("location:S_Vehicle_Registration.php");
-   }
-   
-    //disconnect 
-    mysqli_close($con); 
-  }
-  else 
-  {
-     header("location:M_User_Login.php");
-  } 
-die();
+            } 
+            catch (Exception $e)
+            {
+            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+            }
+            //end
+            $alertMessage = "Successfuly Registered";
+            $redirectLocation = "U_Service.php";
+       }
+       else
+       {
+        $alertMessage = "Please Try Again Shortly";
+        $redirectLocation = "S_Vehicle_Registration.php";
+       }
+      //disconnect 
+      mysqli_close($con); 
+    }
+    else
+    {
+        $alertMessage = "Please Sign in";
+        $redirectLocation = "M_User_Login.php";
+    }
 }
-?> 
-
+?>
 
 <!DOCTYPE html>
 <html>
 <head>
-   <meta charset="utf-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Fuelup - Vehicle Registration</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Fuel Up" name="keywords">
-    <meta content="Fuel Status" name="description">
-
-    <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Rubik&display=swap" rel="stylesheet"> 
-   <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" rel="stylesheet">
-    <!-- Libraries Stylesheet -->
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- css Stylesheet -->
-    <link href="css/styles.css" rel="stylesheet">     
-    <link href="css/styleRegistrations.css" rel="stylesheet">
+    <!-- Template Main CSS File -->
+    <link href="css/styles.css" rel="stylesheet"> 
+    <link href="css/SForm.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/c4254e24a8.js" crossorigin="anonymous"></script>   
 </head>
 <body style="background-image: url(img/registration.png);">
+    <?php require('M_NavigationBarForms.php');?>
+    <div class="container-fluid" id="containerm">
+        <!-- Form start -->
+        <div class="container mt-2" >
+        <h1 >Vehicle Registration</h1>
+            <?php if (!empty($alertMessage)) : ?>
+                <div class="modal fade" id="outputModal" tabindex="-1" aria-labelledby="outputModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="outputModalLabel">Output Message</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <?php echo $alertMessage; ?>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-<?php require('M_NavigationBarForms.php');?>
-
-<!-- Form start -->
-<div class="container-fluid"> 
-	<div class="container mt-2">
-    <h1 >Vehicle Registration</h1>
-    <form class="row g-3 needs-validation" action="#" name="frmvehicleregistration" method="post" autocomplete="off" onsubmit="return result()" >
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var modal = new bootstrap.Modal(document.getElementById('outputModal'));
+                        modal.show();
+                        // Redirect after displaying the message
+                        var redirectLocation = '<?php echo $redirectLocation; ?>';
+                        if (redirectLocation) {
+                            setTimeout(function () {
+                                window.location.href = redirectLocation;
+                            }, 3000); // Redirect after 3 seconds (adjust as needed)
+                        }
+                    });
+                </script>
+            <?php endif; ?>
+<form class="row g-3 needs-validation" action="#" name="frmvehicleregistration" method="post" autocomplete="off" onsubmit="return result()" >
 <!--Vehicle Registration No-->
   <div class="inputfeild mt-2 ">
   	<label for="Vehicle Registration No" class="form-label">Vehicle Registration No</label>
@@ -226,7 +242,6 @@ die();
 </form>
 </div>
 </div>
-
 <script type="text/javascript">
     
 var Registration_Error=document.getElementById('Registration_Error');
@@ -236,7 +251,6 @@ var VehicleClass_Error=document.getElementById('VehicleClass_Error');
 var FuelType_Error=document.getElementById('FuelType_Error');
 var Email_Error=document.getElementById('Email_Error');
 var Check_Error=document.getElementById('Check_Error');
-
 
 function validateRegistrationNo()
 {
@@ -406,8 +420,6 @@ document.getElementById("chStatus").addEventListener("click", function() {
   return true;
 }
 });
-
-
 
 function result()
 {

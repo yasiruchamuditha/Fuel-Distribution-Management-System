@@ -4,19 +4,25 @@
  * contact me : https://linktr.ee/yasiruchamuditha for more information.
  */
 //session_start();
-if(isset($_GET['deleteid']))
+$statusMessage = '';
+
+if(isset($_POST['btnDelete']))
 {
-	$deleteid=$_GET['deleteid'];
-	$sql="Delete from vehicle_registration where Reg_No='$deleteid' ";
-	$ret= mysqli_query($con, $sql);
-	 if ($ret) 
-	  {
-	  	echo '<script>alert("Successfuly Deleted")</script>';
-	  }
-	  else
-	  {
-	  	echo '<script>alert("Please Try Again Shortly....")</script>';
-	  }
+	$deleteid=$_POST['deleteid'];
+	$sql="DELETE FROM vehicle_registration WHERE Reg_No=? ";
+    $stmt = mysqli_prepare($con, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $deleteid);
+    $ret = mysqli_stmt_execute($stmt);
+
+    if ($ret) 
+    {
+        $statusMessage = '<div class="alert alert-success" role="alert">Successfully Deleted</div>';
+    } 
+    else 
+    {
+        $statusMessage = '<div class="alert alert-danger" role="alert">Please Try Again Shortly...</div>';
+    }
+    mysqli_stmt_close($stmt);
 }
 ?>
 
@@ -44,7 +50,7 @@ if(isset($_GET['deleteid']))
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Template Stylesheet -->
     <link href="css/styles.css" rel="stylesheet"> 
-     <link href="css/styleAdmin.css" rel="stylesheet"> 
+     <link href="css/styleAMP.css" rel="stylesheet"> 
 </head>
 
 <body>
@@ -56,55 +62,71 @@ if(isset($_GET['deleteid']))
 	
 <p class="header">Vehicle Details</p>
 <table class="table">
-<thead>	
-    <tr  class="table-info">
-      <th scope="col">Registration No</th>
-      <th scope="col">Engine No</th>
-      <th scope="col">Chassis No</th>
-      <th scope="col">Vehicle Class</th>
-      <th scope="col">Fuel Type</th>
-      <th scope="col">Operation</th>
-    </tr>
- </thead>
-  <tbody>
- <?php
- $sql="SELECT * FROM vehicle_registration";
- $ret= mysqli_query($con, $sql);
- if ($ret) 
- {
- 	while($row=mysqli_fetch_assoc($ret))
- 	{
- 		$Reg_No=$row['Reg_No'];
- 		$Engine_No=$row['Engine_No'];
- 		$Chassis_No=$row['Chassis_No'];
- 		$Vehicle_Class=$row['Vehicle_Class'];
- 		$Fuel_Type=$row['Fuel_Type'];
- 		echo'<tr>
-              <th scope="row">'.$Reg_No.'</th>
-              <td>'.$Engine_No.'</td>
-              <td>'.$Chassis_No.'</td>
-              <td>'.$Vehicle_Class.'</td>
-              <td>'.$Fuel_Type.'</td>
-              <td><button class="btn btn-danger" name="btnDelete"><a href="Admin_VehicleManagement.php?deleteid='.$Reg_No.'" class="text-light">Delete</a></button></td>
-             </tr>';
- 	}  
- }
-?>
-</tbody>
+    <thead>	
+        <tr  class="table-info">
+            <th scope="col">Registration No</th>
+            <th scope="col">Engine No</th>
+            <th scope="col">Chassis No</th>
+            <th scope="col">Vehicle Class</th>
+            <th scope="col">Fuel Type</th>
+            <th scope="col">Operation</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+            $sql="SELECT * FROM vehicle_registration";
+            $ret= mysqli_query($con, $sql);
+            if ($ret) 
+            {
+                while($row=mysqli_fetch_assoc($ret))
+                {
+                    $Reg_No = htmlspecialchars($row['Reg_No']);
+                    $Engine_No = htmlspecialchars($row['Engine_No']);
+                    $Chassis_No = htmlspecialchars($row['Chassis_No']);
+                    $Vehicle_Class = htmlspecialchars($row['Vehicle_Class']);
+                    $Fuel_Type = htmlspecialchars($row['Fuel_Type']);
+                
+                    echo'<tr>
+                        <th scope="row">'.$Reg_No.'</th>
+                        <td>'.$Engine_No.'</td>
+                        <td>'.$Chassis_No.'</td>
+                        <td>'.$Vehicle_Class.'</td>
+                        <td>'.$Fuel_Type.'</td>
+                        <td>
+                            <form method="post">
+                                <input type="hidden" name="deleteid" value="' . $Reg_No . '">
+                                <button type="submit" class="btn btn-danger" name="btnDelete">Delete</button>
+                            </form>
+                        </td>
+                        </tr>';
+                }  
+            }
+        ?>
+
+    </tbody>
 </table>
 </div>
-<?php require_once('A_Footer.php');?>
 
- <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="lib/tempusdominus/js/moment.min.js"></script>
-    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
-    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Display the status message below the table only if it's set and use JavaScript to remove it after 3 seconds -->
+<?php if (!empty($statusMessage)) { ?>
+    <div class="container">
+        <div id="statusMessage" class="alert <?php echo strpos($statusMessage, 'alert-success') !== false ? 'alert-success' : 'alert-danger'; ?>" role="alert">
+            <?php echo $statusMessage; ?>
+        </div>
+    </div>
+    <script>
+        // Remove the status message after 3 seconds
+        setTimeout(function () {
+            var statusMessage = document.getElementById('statusMessage');
+            if (statusMessage) {
+                statusMessage.style.display = 'none';
+            }
+        }, 4000); // 4 seconds (4000 milliseconds)
+    </script>
+<?php } ?>
 
+
+<?php require_once('A_MFooter.php');?>
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
 </body>

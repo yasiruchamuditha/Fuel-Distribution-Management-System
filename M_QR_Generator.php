@@ -1,34 +1,26 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-     <meta charset="utf-8">
-      <title>QR Code Generator </title>
-   <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <title>QR Code Generator </title>
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
     <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
-
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Rubik&display=swap" rel="stylesheet"> 
-
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" rel="stylesheet">
-
     <!-- Libraries Stylesheet -->
     <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
     <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
-
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- css Stylesheet -->
-
      <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
         .container{
@@ -149,7 +141,7 @@
 </head>
 
 <body style="background-color: whitesmoke;"> 
- <?php require('navigationBar.php'); 
+ <?php require('M_NavigationBar.php'); 
  /**
  * @author Yasiru
  * contact me : https://linktr.ee/yasiruchamuditha for more information.
@@ -160,7 +152,7 @@
             <div>FuelUp QR Code</div>
         </div>
         <h3>Enter Your UserEmail</h3>
-        <input type="text" placeholder="UserEmail" name="txtEmail" class="text-field" >
+        <input type="text" placeholder="UserEmail" name="txtEmail"  class="text-field" >
         <ul class="mode">
             <li>Basic</li>
             <li class="active">Medium</li>

@@ -15,17 +15,17 @@ require 'PHPMailer/src/Exception.php';
 require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 //
-
+$alertMessage = '';
+$redirectLocation = '';
 
 if(isset($_POST["btnSubmit"]))
 {
   //create a new PHPMailer object:
- $mail = new PHPMailer(true);
-  // 
+$mail = new PHPMailer(true);
 
 $Email=$_POST["txtEmail"];
-$password=$_POST["txtpassword"];
-$confirmpassword=$_POST["txtConfirmPassword"];
+$password=$_POST["txtPassword"];
+$confirmpassword=$_POST["txtConfirm_Password"];
 
 if($password==$confirmpassword)
 {
@@ -76,16 +76,15 @@ $ret= mysqli_query($con, $sql);
           echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
          }
 
-     header('location:user_login.php');
-
-     echo '<script>alert("Succesfuly Update Your Password , Please Sign In")</script>';
-     //disconnect 
-     mysqli_close($con);
-
+         $alertMessage = "Succesfuly Update Your Password , Please Sign In";
+         $redirectLocation = "M_User_Login.php";
+        //disconnect 
+        mysqli_close($con);
 }
 else
 {
-   echo '<script>alert("Password and Confirm Password is Mismatch")</script>';
+   $alertMessage = "Password and Confirm Password is Mismatch";
+   $redirectLocation = "M_Update_Password.php";
 }
 }
     
@@ -100,32 +99,59 @@ else
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Fuel Up" name="keywords">
     <meta content="Fuel Status" name="description">
-    <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Rubik&display=swap" rel="stylesheet"> 
     <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" rel="stylesheet">
-    <!-- Libraries Stylesheet -->
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- css Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">  
-    <link href="css/forgot.css" rel="stylesheet">  
+    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+        <link href="css/M_Forgotten.css" rel="stylesheet">  
     <script src="https://kit.fontawesome.com/c4254e24a8.js" crossorigin="anonymous"></script> 
-
 </head>
 <body style="background: url(img/Token1.png);">
- <?php require('navigationBarForms.php');?>
+ <?php require('M_NavigationBarForms.php');?>
 
-<div class="container-fluid">
-<div class="container" style="background: transparent; margin-top: 100px;">
+<div class="container-fluid" id="containerm">
+<div class="container">
 <h1>Update Account Password</h1>
+
+<?php if (!empty($alertMessage)) : ?>
+                <div class="modal fade" id="outputModal" tabindex="-1" aria-labelledby="outputModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="outputModalLabel">Output Message</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <?php echo $alertMessage; ?>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var modal = new bootstrap.Modal(document.getElementById('outputModal'));
+                        modal.show();
+                        // Redirect after displaying the message
+                        var redirectLocation = '<?php echo $redirectLocation; ?>';
+                        if (redirectLocation) {
+                            setTimeout(function () {
+                                window.location.href = redirectLocation;
+                            }, 3000); // Redirect after 3 seconds (adjust as needed)
+                        }
+                    });
+                </script>
+            <?php endif; ?>
+
 <form class="row g-3 needs-validation" action="#" method="post" onsubmit="return result()" >
   <div class="inputfeild mt-3">
       <label for="Email" class="form-label">UserEmail</label>
@@ -133,17 +159,27 @@ else
         <span id="Email_Error"></span>
   </div>
 
-    <div class="inputfeild mt-3">
-      <label for="password" class="form-label">New Password</label>
-      <input type="text" class="form-control" id="txtpassword" name="txtpassword" placeholder="New Password" onkeyup="validatePassword()" >
-        <span id="Password_Error"></span>
-  </div>
+  <div class="inputfeild mt-3">
+            <label class="form-label mb-2">Password:</label>
+            <div class="input-group">
+                <input type="password" class="form-control" name="txtPassword" id="txtPassword" placeholder="Enter Password" onkeyup="validatePassword()">
+                <button type="button" class="btn btn-outline-secondary" id="showPasswordBtn">
+                    <i class="bx bx-hide show-hide"></i>
+                </button>
+         </div>
+    <span id="Password_Error"></span>
+    </div>
+        <div class="inputfeild mt-3">
+            <label class="form-label mb-2">Confirm Password:</label>
+            <div class="input-group">
+                <input type="password" class="form-control" name="txtConfirm_Password" id="txtConfirm_Password" placeholder="Please Confirm Password" onkeyup="validateConfirm_Password()">
+                <button type="button" class="btn btn-outline-secondary" id="showConfirmPasswordBtn">
+                    <i class="bx bx-hide show-hide"></i>
+                </button>
+            </div>
+            <span id="Confirm_Password_Error"></span>
+        </div>
 
-    <div class="inputfeild mt-3">
-      <label for="confirmpassword" class="form-label">Confirm New Password</label>
-      <input type="text" class="form-control" id="txtConfirmPassword" name="txtConfirmPassword" placeholder="Confirm New Password" onkeyup="confirmPass()" >
-        <span id="ConfirmPassword_Error"></span>
-  </div>
 
  <!--Button-->
   <button type="submit" id="btnSubmit" class="btn btn-outline-dark btn-lg" name="btnSubmit">Continue</button>
@@ -152,10 +188,35 @@ else
 </div>
 </div>
 
+<script>
+    // Function to toggle password visibility
+    function togglePasswordVisibility(inputId, buttonId) {
+        const passwordInput = document.getElementById(inputId);
+        const showHideButton = document.getElementById(buttonId);
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            showHideButton.innerHTML = '<i class="bx bx-show show-hide"></i>';
+        } else {
+            passwordInput.type = "password";
+            showHideButton.innerHTML = '<i class="bx bx-hide show-hide"></i>';
+        }
+    }
+
+    // Event listeners for the show/hide buttons
+    document.getElementById("showPasswordBtn").addEventListener("click", function () {
+        togglePasswordVisibility("txtPassword", "showPasswordBtn");
+    });
+
+    document.getElementById("showConfirmPasswordBtn").addEventListener("click", function () {
+        togglePasswordVisibility("txtConfirm_Password", "showConfirmPasswordBtn");
+    });
+</script>
+
 <script type="text/javascript">
 	  var Email_Error=document.getElementById('Email_Error');
     var Password_Error=document.getElementById('Password_Error');
-    var ConfirmPassword_Error=document.getElementById('ConfirmPassword_Error');
+    var Confirm_Password_Error=document.getElementById('ConfirmPassword_Error');
 function validateEmail()
 {
   var Email = document.getElementById('txtEmail').value.replace(/^\s+|\s+$/g, "");
@@ -178,45 +239,62 @@ function validateEmail()
 
 }
 
-function validatePassword() 
+function validatePassword()
 {
-passInput=document.getElementById('txtpassword').value.replace(/^\s+|\s+$/g, "");
-    if (passInput.length == 0)
-     {
-      Password_Error.innerHTML='Password is required.';
-     return false;
+  var Password=document.getElementById('txtPassword').value.replace(/^\s+|\s+$/g, "");
 
-    }
-  Password_Error.innerHTML = '<i class="fa-regular fa-circle-check"></i>';
-  return true;
-}
-
-function confirmPass() {
-passInput=document.getElementById('txtpassword').value.replace(/^\s+|\s+$/g, "");
-cPassInput=document.getElementById('txtConfirmPassword').value.replace(/^\s+|\s+$/g, "");
-if (cPassInput.length == 0) 
+  if (Password.length == 0) 
   {
-      ConfirmPassword_Error.innerHTML='Password is required';
-     return false;
+    Password_Error.innerHTML='Password is required.';
+    return false;
   }
-  ConfirmPassword_Error.innerHTML = '<i class="fa-regular fa-circle-check"></i>';
+  else
+  {
+    const PasswordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+   if (!Password.match(PasswordPattern))
+   {
+    Password_Error.innerHTML='Please Enter Password with Numbers,symbols,upper and lower case (minimum 8 characters)';
+    return false;
+   }
+   Password_Error.innerHTML = '<i class="fa-regular fa-circle-check"></i>';
   return true;
+  }  
 }
+
+
+function validateConfirm_Password() {
+  var Confirm_Password = document.getElementById('txtConfirm_Password').value.trim();
+  var Passwordx = document.getElementById('txtPassword').value.trim();
+
+  var Confirm_Password_Error = document.getElementById('Confirm_Password_Error');
+
+  if (Confirm_Password.length === 0) {
+    Confirm_Password_Error.innerHTML = 'Confirm Password is required.';
+    return false;
+  } else if (Confirm_Password !== Passwordx) {
+    Confirm_Password_Error.innerHTML = 'Please Enter the correct password Again.';
+    return false;
+  } else {
+    Confirm_Password_Error.innerHTML = '<i class="fa-regular fa-circle-check"></i>';
+    return true;
+  }
+}
+
 
 
 function result()
 {
   validateEmail();
   validatePassword();
-  confirmPass();
+  validateConfirm_Password();
 
 
-if((!validateEmail()) || (!validatePassword()) || (!confirmPass()) ) 
+if((!validateEmail()) || (!validatePassword()) || (!validateConfirm_Password()) ) 
   {
     return false;
   }
 }
-
 </script>
+<?php require('M_Footer.php');?>
 </body>
 </html>

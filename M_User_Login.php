@@ -3,6 +3,8 @@
  * @author Yasiru
  * contact me : https://linktr.ee/yasiruchamuditha for more information.
  */
+$alertMessage = '';
+$redirectLocation = '';
 
 if(isset($_POST["btnSubmit"]))
 {
@@ -11,13 +13,17 @@ if(isset($_POST["btnSubmit"]))
     $Password=$_POST["txtPassword"]; 
 	if(empty($Email) || empty($Password))
     {
-      echo '<script>alert(" Fileds cannot be blank")</script>';
+      //echo '<script>alert(" Fileds cannot be blank")</script>';
+      $alertMessage = "Fileds cannot be blank"; 
+      $redirectLocation = "M_User_Login.php";    
     }
 	else
 	{
 		if (!filter_var($Email, FILTER_VALIDATE_EMAIL)) 
 		{
-			echo '<script>alert("Please Enter Valid UserEmail")</script>';       
+			//echo '<script>alert("Please Enter Valid UserEmail")</script>'; 
+      $alertMessage = "Please Enter Valid UserEmail"; 
+      $redirectLocation = "M_User_Login.php";     
 		}
 		else
 		{	
@@ -31,22 +37,30 @@ if(isset($_POST["btnSubmit"]))
                 if($row['User_Role'] == 'Admin')
                 {
                      $_SESSION['Email'] =  $Email;
-                     header('location:A_Admin.php'); 
+                     //header('location:A_Admin.php'); 
+                     $alertMessage = "Welcome $Email" ;
+                     $redirectLocation = "A_Admin.php";
                 }
                 elseif($row['User_Role'] == 'Fuel_Station')
                 {
                      $_SESSION['Email'] =  $Email;
-                     header('location:F_Fuel_Station.php'); 
+                     //header('location:F_Fuel_Station.php'); 
+                     $alertMessage = "Welcome $Email";
+                     $redirectLocation = "F_Fuel_Station.php";
                 }
                 elseif($row['User_Role'] == 'User') 
                 {
                     $_SESSION['Email'] =  $Email;
-                    header('location:index.php'); 
+                    //header('location:index.php'); 
+                    $alertMessage = "Welcome $Email";
+                    $redirectLocation = "index.php";
                 }                             
             }
             else
             {
-                 echo '<script>alert("Invalid Username and Password Combination")</script>';
+                 //echo '<script>alert("Invalid Username and Password Combination")</script>';
+                 $alertMessage = "Invalid Username and Password Combination";
+                 $redirectLocation = "M_User_Login.php";
             }
         //disconnect 
          mysqli_close($con);
@@ -77,6 +91,42 @@ if(isset($_POST["btnSubmit"]))
     <div class="container-fluid">
      <div class="container">
 	   <h1>LOGIN</h1>
+
+     <?php if (!empty($alertMessage)) : ?>
+                <div class="modal fade" id="outputModal" tabindex="-1" aria-labelledby="outputModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="outputModalLabel">Output Message</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <?php echo $alertMessage; ?>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var modal = new bootstrap.Modal(document.getElementById('outputModal'));
+                        modal.show();
+                        // Redirect after displaying the message
+                        var redirectLocation = '<?php echo $redirectLocation; ?>';
+                        if (redirectLocation) {
+                            setTimeout(function () {
+                                window.location.href = redirectLocation;
+                            }, 2000); // Redirect after 3 seconds (adjust as needed)
+                        }
+                    });
+                </script>
+            <?php endif; ?>
+
         <form action="#" method="post" name="frmlogin" onsubmit="return validateForm()">
 
             <div class="field email-field" >

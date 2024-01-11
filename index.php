@@ -164,10 +164,10 @@
             <div class="row justify-content-center">
                 <div class="col-lg-10 text-center">
                     <img class="w-75 mb-4" src="img/about.png" alt="About us Image">
-                    <p style="color: black;">This Websites helps to Find Fuel Status based on your location.<br>
-                        User Can Find Current Fuel Prices in Sri Lanka.<br>
-                        User Can Find Fuel Station based on location.<br>
-                        User Can create Token For Fuel Avaliablity.</p>  
+                    <h4 style="color: black;">FuelUp helps to Find Fuel Status based on your location.</h4>
+                        <h4>You Can Find Current Fuel Prices in Sri Lanka.</h4>
+                        <h4>You Can Find Fuel Station based on location.</h4>
+                        <h4>You Can create Token For Fuel Avaliablity.</h4> 
                 </div>
             </div>
             <div class="row mt-3">
@@ -200,7 +200,7 @@
     </div>
 <!-- About End -->
 <!-- Services Start -->
-<div class="container-fluid py-5">
+<div class="container-fluid py-3">
   <div class="container pt-5 pb-3">
      <h1 class="display-1 text-primary text-center"></h1>
      <h1 class="display-4 text-uppercase text-center font-weight-bold mb-5">Our Services</h1>

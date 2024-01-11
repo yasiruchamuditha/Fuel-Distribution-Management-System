@@ -61,7 +61,7 @@
                 <h2 id="h2">QR Generation</h2>
                 <img src="img/services/VEHICLE.jpg" width="350px" height="300px" id="img" >
                 <p id="p">Generate Your QR Pass for get Your Fuel Token</p>
-                 <a href="Acc_verification.php" class="btn btn-dark" id="a">Generate Now</a>
+                 <a href="M_Acc_Verification.php" class="btn btn-dark" id="a">Generate Now</a>
             </div>
 
     <!--Non Vehicle Registration-->
@@ -69,7 +69,7 @@
                 <h2 id="h2">Update Profile</h2>
                 <img src="img/services/NON_VEHICLE.jpg" width="350px" height="300px" id="img" >
                 <p id="p">You can update Your profile password.</p>
-                 <a href="updateAccountPassword.php" class="btn btn-dark" id="a">update Now</a>
+                 <a href="M_Update_Account_Password.php" class="btn btn-dark" id="a">update Now</a>
             </div>
       </div>
 

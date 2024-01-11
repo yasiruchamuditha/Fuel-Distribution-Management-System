@@ -1,0 +1,97 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    align-items: center;
+    justify-content: center;
+    background: whitesmoke; 
+  }
+  h1
+  {
+      text-align: center;
+      color: white;
+  }
+  h3
+  {
+      text-align: center;
+      margin-bottom: 10px;
+  }
+  #containerm {
+    position: relative;
+    max-width: 600px;
+    height: auto;
+    width: 100%;
+    border-radius: 8px;
+    background:transparent;
+    padding-top: 20px;
+    border: 1px solid blue;
+    margin-top: 20px;
+    margin-bottom: 50px;
+  }
+  
+  .form-label{
+      padding-bottom: 0px;
+      margin-bottom: 2px;
+      font-weight: bold;
+      color: white;
+  }
+  .form-check-label{
+      margin-left: 20px;
+      color: darkred;
+  }
+  .form-text{
+      color: black;
+  }
+  
+  #btnSubmit{
+      font-size: 30px;
+      margin-top: 30px;
+      margin-bottom: 50px;
+  }
+  
+  .inputfeild span{
+    color: red;
+    margin-top: 8PX; 
+   }
+ 
+
+.inputfeild span i{
+   color: green;
+   }
+
+
+   .input-field .show-hide {
+    position: absolute;
+    right: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: #919191;
+    cursor: pointer;
+    padding: 3px;
+  }
+
+  /* Style the show/hide password icon */
+.show-hide i {
+    font-size: 18px;
+    cursor: pointer; /* Add a pointer cursor to indicate interactivity */
+    margin-left: -30px; /* Adjust the icon's position */
+    color: #007bff; /* Change the color of the icon */
+}
+
+/* Style the show/hide button container */
+.input-group-append .btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    background-color: transparent; /* Make the button transparent */
+    border: none; /* Remove the button border */
+    cursor: pointer; /* Add a pointer cursor to indicate interactivity */
+    padding: 0; /* Remove padding to make the button smaller */
+}
+
+/* Change the button background on hover */
+.input-group-append .btn:hover {
+    background-color: transparent;
+}

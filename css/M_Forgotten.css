@@ -1,0 +1,91 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    align-items: center;
+    justify-content: center;
+    background: #caf440; 
+  }
+  h1{
+    text-align: center;
+    margin-bottom: 30px;
+    color: white;
+  }
+  h3{
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  #containerm {
+    position: relative;
+    max-width: 680px;
+    height: auto;
+    width: 100%;
+    padding: 25px;
+    border-radius: 8px;
+    background-color:transparent;
+    padding-top: 50px;
+    margin-top: 100px;
+    border: 1px solid black;
+  }
+  
+  .form-label{
+    padding-bottom: 0px;
+    margin-bottom: 2px;
+    font-weight: bold;
+    color: black;
+  }
+  .form-check-label{
+    margin-left: 20px;
+    color: darkred;
+  }
+  .form-text{
+    color: black;
+  }
+  .error-text{
+    color: indianred;
+    margin-top: 0px;
+    margin-bottom: 0px;
+  
+  }
+  
+  .inputfeild span{
+         color: red;
+         margin-top: 5PX; 
+        }
+      
+  
+  .inputfeild span i{
+        color: green;
+        }
+  
+  #btnSubmit{
+    padding-y: 5px;
+    padding-x: 5px;
+    font-size: 30px;
+    margin-top: 30px;
+  }
+
+   /* Style the show/hide password icon */
+.show-hide i {
+  font-size: 18px;
+  cursor: pointer; /* Add a pointer cursor to indicate interactivity */
+  margin-left: -30px; /* Adjust the icon's position */
+  color: #007bff; /* Change the color of the icon */
+}
+
+/* Style the show/hide button container */
+.input-group-append .btn {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  background-color: transparent; /* Make the button transparent */
+  border: none; /* Remove the button border */
+  cursor: pointer; /* Add a pointer cursor to indicate interactivity */
+  padding: 0; /* Remove padding to make the button smaller */
+}
+
+/* Change the button background on hover */
+.input-group-append .btn:hover {
+  background-color: transparent;
+}

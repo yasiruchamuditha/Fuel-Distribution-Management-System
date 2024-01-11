@@ -3,6 +3,10 @@
  * @author Yasiru
  * contact me : https://linktr.ee/yasiruchamuditha for more information.
  */
+// Define variables to store messages
+$alertMessage = '';
+$redirectLocation = '';
+
 if(isset($_POST["btnSubmit"]))
 {
   $code=$_POST["txtcode"];
@@ -11,22 +15,19 @@ if(isset($_POST["btnSubmit"]))
         $sql = "SELECT * FROM passwordupdates WHERE  VerificationCode='$code' ";
         $ret= mysqli_query($con, $sql);
         $num_row  = mysqli_num_rows($ret);
-           if ($num_row >0) 
+        if ($num_row >0) 
         {   
-            //echo '<script>alert("Succesful")</script>'; 
-          header('location:M_Update_Password.php');  
+          $alertMessage = "Valid Verification Code";
+          $redirectLocation = "M_Update_Password.php"; 
         }
-      else
+        else
         {
-          echo '<script>alert("Invalid Verification Code")</script>';
+          $alertMessage = "Invalid Verification Code";
+          $redirectLocation = "M_Verify_Code.php"; 
         }
-
         //disconnect 
          mysqli_close($con);
 }
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -37,39 +38,65 @@ if(isset($_POST["btnSubmit"]))
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Fuel Up" name="keywords">
     <meta content="Fuel Status" name="description">
-    <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Rubik&display=swap" rel="stylesheet"> 
     <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" rel="stylesheet">
-    <!-- Libraries Stylesheet -->
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- css Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">  
-    <link href="css/forgot.css" rel="stylesheet">  
+    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <link href="css/M_Forgotten.css" rel="stylesheet">  
     <script src="https://kit.fontawesome.com/c4254e24a8.js" crossorigin="anonymous"></script> 
-
 </head>
 <body style="background: url(img/Token1.png);">
- <?php require('navigationBarForms.php');?>
+ <?php require('M_NavigationBarForms.php');?>
 
-<div class="container-fluid">
-<div class="container" style="background: transparent; margin-top: 150px; height: 400px;">
+<div class="container-fluid" id="containerm">
+<div class="container">
     <h1 id="h1">Forgotten Password</h1>
-        
+    <?php if (!empty($alertMessage)) : ?>
+                <div class="modal fade" id="outputModal" tabindex="-1" aria-labelledby="outputModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="outputModalLabel">Output Message</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <?php echo $alertMessage; ?>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var modal = new bootstrap.Modal(document.getElementById('outputModal'));
+                        modal.show();
+                        // Redirect after displaying the message
+                        var redirectLocation = '<?php echo $redirectLocation; ?>';
+                        if (redirectLocation) {
+                            setTimeout(function () {
+                                window.location.href = redirectLocation;
+                            }, 3000); // Redirect after 3 seconds (adjust as needed)
+                        }
+                    });
+                </script>
+            <?php endif; ?>    
+
 <form class="row g-3 needs-validation" action="#" method="post" onsubmit="return result()" >
-  <div class="inputfeild mt-3">
-  	<label for="heading" class="form-label">Please Enter Verification Code that Send to Your Email for verify Your User Account</label>
-      <input type="text" class="form-control" id="txtcode" name="txtcode" placeholder="Verification Code" onkeyup="validateCode()" style="margin-top: 50px;">
-        <span id="Code_Error"></span>
-  </div>
+    <div class="inputfeild mt-5">
+    <label for="heading" class="form-label">Please Enter Verification Code that send to your Email for verify your user Account</label>
+    <label for="heading" class="form-label mt-3">Verification Code</label>
+    <input type="text" class="form-control" id="txtcode" name="txtcode" placeholder="Verification Code" onkeyup="validateCode()" >
+    <span id="Code_Error"></span>
+    </div>
 
  <!--Button-->
   <button type="submit" id="btnSubmit" class="btn btn-outline-dark btn-lg" name="btnSubmit">Continue</button>
@@ -102,7 +129,7 @@ if(!validateCode())
     return false;
   }
 }
-
 </script>
+<?php require('M_Footer.php');?>
 </body>
 </html>

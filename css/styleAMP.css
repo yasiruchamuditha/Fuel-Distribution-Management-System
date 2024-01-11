@@ -1,0 +1,15 @@
+body{
+    background-color: white;
+  }
+  .header{
+  margin-top: 20px;
+  margin-bottom:20px;
+  font-weight: bold;
+  font-size: 25px;
+  }
+  .container
+  {
+    width: auto;
+    height: auto;
+    background-color: white;
+  }

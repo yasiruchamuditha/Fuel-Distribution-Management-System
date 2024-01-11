@@ -1,22 +1,28 @@
 <?php require_once('connection.php');
-//session_start();
 /**
  * @author Yasiru
  * contact me : https://linktr.ee/yasiruchamuditha for more information.
  */
-if(isset($_GET['deleteid']))
+//session_start();
+$statusMessage = '';
+
+if(isset($_POST['btnDelete']))
 {
-	$deleteid=$_GET['deleteid'];
-	$sql="Delete from user_registration where Email='$deleteid' ";
-	$ret= mysqli_query($con, $sql);
-	 if ($ret) 
-	  {
-	  	echo '<script>alert("Successfuly Deleted")</script>';
-	  }
-	  else
-	  {
-	  	echo '<script>alert("Please Try Again Shortly....")</script>';
-	  }
+	$deleteid=$_POST['deleteid'];
+	$sql="DELETE FROM user_registration WHERE Email=? ";
+    $stmt = mysqli_prepare($con, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $deleteid);
+    $ret = mysqli_stmt_execute($stmt);
+
+    if ($ret) 
+    {
+        $statusMessage = '<div class="alert alert-success" role="alert">Successfully Deleted</div>';
+    } 
+    else 
+    {
+        $statusMessage = '<div class="alert alert-danger" role="alert">Please Try Again Shortly...</div>';
+    }
+    mysqli_stmt_close($stmt);
 }
 ?>
 
@@ -24,7 +30,7 @@ if(isset($_GET['deleteid']))
 <html>
 <head>
 	<meta charset="utf-8">
-    <title>Admin Panel-User Management</title>
+    <title>Admin Panel- User Management</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Fuel Up" name="keywords">
     <meta content="Fuel Status" name="description">
@@ -43,64 +49,82 @@ if(isset($_GET['deleteid']))
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Template Stylesheet -->
-    <link href="css/styles.css" rel="stylesheet">  
-    <link href="css/styleAdmin.css" rel="stylesheet"> 
+    <link href="css/styles.css" rel="stylesheet"> 
+     <link href="css/styleAMP.css" rel="stylesheet"> 
 </head>
 
 <body>
 <?php require('A_Navigation_Bar.php');?>
-<div class="container">
-<h1>Admin Panel - User Profile Management</h1>
+
+<div class="container"> 
+<h1>Admin Panel -User Management </h1>
 <p class="header">Add New User Profiles - <button class="btn btn-primary "><a href="A_User_Registration.php" class="text-light">Click Here</a></button></p>
 <p class="header">FuelUp User Profiles [Customers Profiles,Fuel Station Users Profiles,Admin Profiles]</p>
-<table class="table">
-<thead>	
-    <tr  class="table-info">
-      <th scope="col">Name</th>
-      <th scope="col">Contact No</th>
-      <th scope="col">Email</th>
-      <th scope="col">Password</th>
-      <th scope="col">Operation</th>
-    </tr>
- </thead>
-  <tbody>
- <?php
- $sql="SELECT * FROM user_registration";
- $ret= mysqli_query($con, $sql);
- if ($ret) 
- {
- 	while($row=mysqli_fetch_assoc($ret))
- 	{
- 		$Name=$row['Name'];
- 		$Contact_No=$row['Contact_No'];
- 		$Email=$row['Email'];
- 		$Password=$row['Password'];
 
- 		echo'<tr>
-              <th scope="row">'.$Name.'</th>
-              <td>'.$Contact_No.'</td>
-              <td>'.$Email.'</td>
-              <td>'.$Password.'</td>
-              <td><button class="btn btn-danger" name="btnDelete"><a href="A_User_Management.php?deleteid='.$Email.'" class="text-light">Delete</a></button></td>
-             </tr>';
- 	}
- }
-?>
-</tbody>
+<table class="table">
+    <thead>	
+        <tr  class="table-info">
+            <th scope="col">Name</th>
+            <th scope="col">Contact No</th>
+            <th scope="col">Email</th>
+            <th scope="col">Password</th>
+            <th scope="col">Operation</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+            $sql="SELECT * FROM user_registration";
+            $ret= mysqli_query($con, $sql);
+            if ($ret) 
+            {
+                while($row=mysqli_fetch_assoc($ret))
+                {
+                    $Name = htmlspecialchars($row['Name']);
+                    $Contact_No = htmlspecialchars($row['Contact_No']);
+                    $Email = htmlspecialchars($row['Email']);
+                    $Password = htmlspecialchars($row['Password']);
+                    
+                
+                    echo'<tr>
+                        <th scope="row">'.$Name.'</th>
+                        <td>'.$Contact_No.'</td>
+                        <td>'.$Email.'</td>
+                        <td>'.$Password.'</td>
+                        <td>
+                            <form method="post">
+                                <input type="hidden" name="deleteid" value="' . $Email . '">
+                                <button type="submit" class="btn btn-danger" name="btnDelete">Delete</button>
+                            </form>
+                        </td>
+                        </tr>';
+                }  
+            }
+        ?>
+
+    </tbody>
 </table>
 </div>
-<?php require_once('A_Footer.php');?>
 
- <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="lib/tempusdominus/js/moment.min.js"></script>
-    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
-    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Display the status message below the table only if it's set and use JavaScript to remove it after 3 seconds -->
+<?php if (!empty($statusMessage)) { ?>
+    <div class="container">
+        <div id="statusMessage" class="alert <?php echo strpos($statusMessage, 'alert-success') !== false ? 'alert-success' : 'alert-danger'; ?>" role="alert">
+            <?php echo $statusMessage; ?>
+        </div>
+    </div>
+    <script>
+        // Remove the status message after 3 seconds
+        setTimeout(function () {
+            var statusMessage = document.getElementById('statusMessage');
+            if (statusMessage) {
+                statusMessage.style.display = 'none';
+            }
+        }, 4000); // 4 seconds (4000 milliseconds)
+    </script>
+<?php } ?>
 
+
+<?php require_once('A_MFooter.php');?>
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
 </body>
