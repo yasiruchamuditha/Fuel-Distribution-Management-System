@@ -237,22 +237,6 @@ Fuel-Distribution-Management-System/
 
 ---
 
-## 📸 Screenshots
-
-> Screenshots are located in the `img/` directory.
-
-| Page | Preview |
-|---|---|
-| Home / Landing | `img/banner1.jpg` |
-| Admin Panel | `img/adminpanel.jpg` |
-| Fuel Station | `img/fuelstation.png` |
-| Token / QR | `img/Token1.png` |
-| Fuel Pass | `img/fuelpass.jpg` |
-| Fuel Prices | `img/fuelprice.png` |
-| Login | `img/login.png` |
-
----
-
 ## 👤 Author
 
 **Yasiru Chamuditha**
